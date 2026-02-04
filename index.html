@@ -33,7 +33,6 @@
       width: 100%; padding: 14px; background: var(--primary); color: #000; border: none;
       border-radius: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s;
     }
-    .login-btn:active { transform: scale(0.95); opacity: 0.8; }
 
     /* Main App */
     #mainApp { width: 100%; max-width: 450px; display: none; padding: 15px; box-sizing: border-box; }
@@ -72,10 +71,7 @@
     .dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin: 0 2px; }
     .dot-red { background: var(--loss); } .dot-green { background: var(--win); } .dot-violet { background: var(--violet); }
     
-    .footer-credit { 
-        text-align: center; color: #FFD700; font-weight: bold; 
-        font-size: 13px; padding-bottom: 25px; opacity: 0.9;
-    }
+    .footer-credit { text-align: center; color: #FFD700; font-weight: bold; font-size: 13px; padding-bottom: 25px; opacity: 0.9; }
   </style>
 </head>
 <body>
@@ -106,11 +102,11 @@
         <div class="prediction-highlight">
           <span class="data-label">Next Target</span>
           <span id="predValue" class="data-value" style="color: var(--primary);">Loading...</span>
-          <div style="font-size: 11px; margin-top: 5px;" id="colorHint">Syncing Engine...</div>
+          <div style="font-size: 11px; margin-top: 5px;" id="colorHint">Syncing DB...</div>
         </div>
       </div>
       <div style="margin-top: 20px; border-top: 1px solid #222; padding-top: 15px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 12px; color: var(--text-dim);">ENGINE: <span style="color:var(--win)">LIVE TREND</span></span>
+        <span style="font-size: 12px; color: var(--text-dim);">DB: <span style="color:var(--win)" id="dbStatus">90K+ LOADED</span></span>
         <span style="color: var(--primary); font-weight: 700; font-size: 20px;" id="timer">00:00</span>
       </div>
     </div>
@@ -131,21 +127,165 @@
   </div>
 
   <script>
-    // Password সেট করা হয়েছে এখানে
+    // Config & Stats
+    const DB_URL = 'https://raw.githubusercontent.com/boom-short/30sDATABASE/main/data.json';
+    const API_URL = 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json';
+    
+    let primaryData = []; 
+    let liveData = [];    
+    let state = { predictions: [], lastPeriod: null, stats: { w: 0, l: 0 }, streak: 0, currentTab: 'mine' };
+
+    // Login Validation
     function validate() {
         const pass = document.getElementById('passInput').value;
-        if(pass === "SoikatVip") { // আপনার পাসওয়ার্ড
+        if(pass === "SoikatVip") {
             document.getElementById('loginSection').style.display = 'none';
             document.getElementById('mainApp').style.display = 'block';
-            if (typeof initEngine === "function") initEngine();
+            initEngine();
         } else {
             const err = document.getElementById('errMsg');
             err.style.display = 'block';
             setTimeout(() => err.style.display = 'none', 2500);
         }
     }
+
+    // Binary Search: ৯০ হাজার ডাটায় ১ সেকেন্ডের নিচে সার্চ করবে
+    function findRecord(issueNumber) {
+        let record = liveData.find(d => d.issueNumber === issueNumber);
+        if (record) return record;
+
+        let low = 0, high = primaryData.length - 1;
+        while (low <= high) {
+            let mid = Math.floor((low + high) / 2);
+            if (primaryData[mid].issueNumber === issueNumber) return primaryData[mid];
+            if (primaryData[mid].issueNumber < issueNumber) high = mid - 1;
+            else low = mid + 1;
+        }
+        return null;
+    }
+
+    async function syncData() {
+        try {
+            if (primaryData.length === 0) {
+                const pRes = await fetch(`${DB_URL}?t=${Date.now()}`);
+                primaryData = await pRes.json();
+                primaryData.sort((a, b) => b.issueNumber.localeCompare(a.issueNumber));
+            }
+
+            const lRes = await fetch(`${API_URL}?t=${Date.now()}`, { cache: 'no-store' });
+            const lJson = await lRes.json();
+            if (lJson.data && lJson.data.list) liveData = lJson.data.list;
+
+            processLogic();
+        } catch (e) { console.log("Syncing..."); }
+    }
+
+    function processLogic() {
+        let combined = [...liveData, ...primaryData.slice(0, 20)];
+        let uniqueLatest = Array.from(new Map(combined.map(i => [i.issueNumber, i])).values())
+                                .sort((a, b) => b.issueNumber.localeCompare(a.issueNumber));
+
+        if (uniqueLatest.length === 0) return;
+        const currentIssue = uniqueLatest[0].issueNumber;
+
+        // Result Checking
+        state.predictions.forEach(p => {
+            if (p.status === 'PENDING') {
+                const match = findRecord(p.period);
+                if (match) {
+                    const actual = parseInt(match.number);
+                    const win = (p.size === (actual >= 5 ? 'BIG' : 'SMALL'));
+                    p.actualNum = actual;
+                    p.status = win ? 'WIN' : 'LOSS';
+                    if (win) { state.stats.w++; state.streak = 0; }
+                    else { state.stats.l++; state.streak++; }
+                    updateStatsUI();
+                }
+            }
+        });
+
+        // New Prediction
+        if (currentIssue !== state.lastPeriod) {
+            const nextIssue = String(BigInt(currentIssue) + 1n);
+            const ai = (uniqueLatest.length > 5) ? generateAI(uniqueLatest) : null;
+            if (ai && !state.predictions.find(p => p.period === nextIssue)) {
+                state.predictions.unshift({ period: nextIssue, size: ai.size, num: ai.num, status: 'PENDING', actualNum: '?' });
+                updateMainUI(nextIssue, ai);
+            }
+            state.lastPeriod = currentIssue;
+        }
+        renderTable(uniqueLatest);
+    }
+
+    function generateAI(history) {
+        const lastNum = parseInt(history[0].number);
+        const nextSize = lastNum >= 5 ? 'SMALL' : 'BIG'; // ট্রেন্ড রিভার্সাল
+        const nextNum = nextSize === 'BIG' ? [5, 6, 8][Math.floor(Math.random()*3)] : [1, 2, 4][Math.floor(Math.random()*3)];
+        return { size: nextSize, num: nextNum };
+    }
+
+    function updateMainUI(issue, ai) {
+        document.getElementById('periodId').textContent = issue.slice(-4);
+        const pVal = document.getElementById('predValue');
+        pVal.textContent = ai.size;
+        pVal.style.color = ai.size === 'BIG' ? '#ffa726' : '#29b6f6';
+        const v = getVisual(ai.num);
+        document.getElementById('colorHint').innerHTML = `Target: ${ai.num} ${v.dots}`;
+    }
+
+    function getVisual(n) {
+        n = parseInt(n);
+        let dots = '';
+        if (n === 0) dots = '<span class="dot dot-red"></span><span class="dot dot-violet"></span>';
+        else if (n === 5) dots = '<span class="dot dot-green"></span><span class="dot dot-violet"></span>';
+        else if ([1,3,7,9].includes(n)) dots = '<span class="dot dot-green"></span>';
+        else dots = '<span class="dot dot-red"></span>';
+        return { dots };
+    }
+
+    function renderTable(data) {
+        const body = document.getElementById('hBody');
+        const head = document.getElementById('hHead');
+        if(!body) return;
+        body.innerHTML = "";
+        if (state.currentTab === 'mine') {
+            head.innerHTML = "<tr><th>Period</th><th>AI Predict</th><th>Result</th><th>Status</th></tr>";
+            state.predictions.slice(0, 15).forEach(i => {
+                body.innerHTML += `<tr><td>${i.period.slice(-4)}</td><td style="color:var(--primary)">${i.size}</td><td>${i.actualNum}</td><td><span class="${i.status === 'WIN' ? 'badge-win' : (i.status === 'LOSS' ? 'badge-loss' : '')}">${i.status}</span></td></tr>`;
+            });
+        } else {
+            head.innerHTML = "<tr><th>Period</th><th>Number</th><th>Size</th><th>Color</th></tr>";
+            data.slice(0, 15).forEach(m => {
+                const sz = parseInt(m.number) >= 5 ? 'BIG' : 'SMALL';
+                const v = getVisual(m.number);
+                body.innerHTML += `<tr><td>${m.issueNumber.slice(-4)}</td><td>${m.number}</td><td style="color:${sz==='BIG'?'#ffa726':'#29b6f6'}">${sz}</td><td>${v.dots}</td></tr>`;
+            });
+        }
+    }
+
+    function updateStatsUI() {
+        const total = state.stats.w + state.stats.l;
+        document.getElementById('stW').textContent = state.stats.w;
+        document.getElementById('stL').textContent = state.stats.l;
+        document.getElementById('stS').textContent = state.streak;
+        document.getElementById('stA').textContent = total > 0 ? Math.round((state.stats.w/total)*100)+'%' : '0%';
+    }
+
+    function switchTab(t) {
+        state.currentTab = t;
+        document.getElementById('tMine').classList.toggle('active', t === 'mine');
+        document.getElementById('tMarket').classList.toggle('active', t === 'market');
+        syncData();
+    }
+
+    function initEngine() {
+        syncData();
+        setInterval(() => {
+            const r = 30 - (new Date().getSeconds() % 30);
+            document.getElementById('timer').textContent = "00:" + (r < 10 ? "0" + r : r);
+            if (r === 29 || r === 1) syncData();
+        }, 1000);
+    }
   </script>
-  <script src="data.json"></script>
-  <script src="engine.js"></script>
 </body>
 </html>
