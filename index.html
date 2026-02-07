@@ -9,13 +9,11 @@
     :root { --primary: #00ffea; --bg: #050505; --card: #121212; --win: #00ff88; --loss: #ff4444; }
     body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
     
-    /* Login Section */
     #loginSection { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
     .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; width: 85%; max-width: 350px; }
-    input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; box-sizing: border-box; }
+    input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; box-sizing: border-box; outline: none; }
     .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
 
-    /* Main App */
     #mainApp { display: none; width: 100%; max-width: 500px; }
     .header { text-align: center; color: var(--primary); font-size: 18px; margin: 15px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
     
@@ -25,7 +23,6 @@
     .status-bar { display: flex; justify-content: space-between; font-size: 12px; margin-top: 10px; color: #888; }
     .highlight { color: var(--primary); font-weight: bold; }
 
-    /* Table Styles */
     .table-container { background: #0a0a0a; border-radius: 12px; overflow: hidden; border: 1px solid #222; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th { padding: 12px; background: #151515; color: var(--primary); border-bottom: 2px solid #222; }
@@ -58,9 +55,7 @@
         <span>Next Period: <b id="periodDisplay" class="highlight">----</b></span>
         <span>Refresh: <b id="timer" style="color:#fff;">30s</b></span>
       </div>
-
       <div id="prediction" class="prediction-box">SCANNING</div>
-
       <div class="status-bar">
         <span>Accuracy: <span id="confPercent" class="highlight">0%</span></span>
         <span>Patterns: <span id="matchFound" class="highlight">0</span></span>
@@ -70,15 +65,9 @@
     <div class="table-container">
       <table>
         <thead>
-          <tr>
-            <th>Period</th>
-            <th>Num</th>
-            <th>Size</th>
-            <th>Result</th>
-          </tr>
+          <tr><th>Period</th><th>Num</th><th>Size</th><th>Result</th></tr>
         </thead>
-        <tbody id="logTable">
-          </tbody>
+        <tbody id="logTable"></tbody>
       </table>
     </div>
 
@@ -95,8 +84,7 @@ const LIVE_API = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssueP
 let bigDatabase = []; 
 let lastPrediction = null;
 let lastTargetPeriod = null;
-// LocalStorage থেকে আগের ইতিহাস লোড করা
-let winLossHistory = JSON.parse(localStorage.getItem('wl_history')) || {};
+let winLossHistory = {}; // কোনো LocalStorage ব্যবহার করা হয়নি
 
 async function checkLogin() {
   const pass = document.getElementById('passInput').value;
@@ -108,9 +96,7 @@ async function checkLogin() {
       const res = await fetch('data.json');
       const data = await res.json();
       bigDatabase = data.list || data;
-    } catch (e) { 
-      console.error("Database failed to load. Using live scan only."); 
-    }
+    } catch (e) { console.error("Database error"); }
 
     startEngine();
   } else {
@@ -120,17 +106,8 @@ async function checkLogin() {
 
 function startEngine() {
   fetchLive();
-  // প্রতি ৪ সেকেন্ডে নতুন রেজাল্ট চেক
   setInterval(fetchLive, 4000);
-
-  // প্রতি ১ সেকেন্ডে এনালাইসিস আপডেট
-  setInterval(() => {
-    if(window.currentLiveHistory) {
-      runDeepScan(window.currentLiveHistory);
-    }
-  }, 1000);
-
-  // ৩০ সেকেন্ড টাইমার
+  setInterval(() => { if(window.currentLiveHistory) runDeepScan(window.currentLiveHistory); }, 1000);
   setInterval(() => {
     let r = 30 - (new Date().getSeconds() % 30);
     document.getElementById('timer').innerText = r + "s";
@@ -151,14 +128,10 @@ async function fetchLive() {
 
 function updateWinLossLogic(latestResult) {
     const period = latestResult.issueNumber;
-    const num = parseInt(latestResult.number);
-    const actual = num >= 5 ? "BIG" : "SMALL";
+    const actual = parseInt(latestResult.number) >= 5 ? "BIG" : "SMALL";
 
-    // যদি আমাদের কাছে এই পিরিয়ডের জন্য আগে থেকে প্রেডিকশন থাকে
     if (lastTargetPeriod === period && lastPrediction !== null) {
         winLossHistory[period] = (lastPrediction === actual) ? "WIN" : "LOSS";
-        // ডাটা সেভ করা
-        localStorage.setItem('wl_history', JSON.stringify(winLossHistory));
         lastPrediction = null; 
         lastTargetPeriod = null;
     }
@@ -169,20 +142,15 @@ function runDeepScan(history) {
   const nextPeriod = (BigInt(latest.issueNumber) + 1n).toString();
   document.getElementById('periodDisplay').innerText = nextPeriod.slice(-4);
 
-  // বর্তমান ৫টি প্যাটার্ন
   const currentKey = history.slice(0, 5).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
-  
   let bCount = 0, sCount = 0, matchCount = 0;
   
-  // ৯২,০০০ ডাটা স্ক্যান
   if(bigDatabase.length > 0) {
     for (let i = 0; i < bigDatabase.length - 6; i++) {
       let pKey = "";
       for(let j=0; j<5; j++) {
-        const n = parseInt(bigDatabase[i+j+1].number);
-        pKey += n >= 5 ? 'B' : 'S';
+        pKey += parseInt(bigDatabase[i+j+1].number) >= 5 ? 'B' : 'S';
       }
-      
       if(pKey === currentKey) {
         matchCount++;
         if(parseInt(bigDatabase[i].number) >= 5) bCount++; else sCount++;
@@ -196,9 +164,7 @@ function runDeepScan(history) {
   if (matchCount > 0) {
     if (bCount > sCount) { pred = "BIG"; conf = (bCount/matchCount)*100; }
     else if (sCount > bCount) { pred = "SMALL"; conf = (sCount/matchCount)*100; }
-    else { pred = "RANDOM"; conf = 50; }
     
-    // পরবর্তী পিরিয়ডের জন্য প্রেডিকশন লক করা
     if (lastTargetPeriod !== nextPeriod) {
         lastPrediction = pred;
         lastTargetPeriod = nextPeriod;
@@ -208,7 +174,6 @@ function runDeepScan(history) {
   const pDiv = document.getElementById('prediction');
   pDiv.innerText = pred;
   pDiv.style.color = pred === "BIG" ? "#ff9900" : (pred === "SMALL" ? "#00aaff" : "#00ffea");
-  
   document.getElementById('confPercent').innerText = Math.round(conf) + "%";
   document.getElementById('matchFound').innerText = matchCount;
   
@@ -221,7 +186,6 @@ function renderTable(history) {
     const isB = parseInt(item.number) >= 5;
     const status = winLossHistory[item.issueNumber] || "---";
     const statusClass = status === "WIN" ? "green" : (status === "LOSS" ? "red" : "");
-    
     html += `<tr>
       <td>${item.issueNumber.slice(-4)}</td>
       <td class="gold">${item.number}</td>
