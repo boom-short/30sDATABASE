@@ -6,50 +6,107 @@
   <title>◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 𝑽𝑰𝑷 °•◈</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root { --primary: #00ffea; --bg: #050505; --card: #121212; --win: #00ff88; --loss: #ff4444; --accent: #ffd700; }
-    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+    :root { 
+      --primary: #00ffea; 
+      --bg: #000; 
+      --card: #111; 
+      --win: #00ff88; 
+      --loss: #ff3333; 
+      --accent: #ffd700; 
+    }
     
-    #loginSection { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-    .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; width: 85%; max-width: 350px; box-shadow: 0 0 30px rgba(0,255,234,0.2); }
-    input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; box-sizing: border-box; outline: none; font-size: 16px; }
-    .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-    .login-btn:active { transform: scale(0.95); opacity: 0.8; }
+    body { 
+      font-family: 'Outfit', sans-serif; 
+      background: var(--bg); 
+      color: #fff; 
+      margin: 0; 
+      padding: 0; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      overflow-x: hidden;
+    }
 
-    #mainApp { display: none; width: 100%; max-width: 500px; animation: fadeIn 0.5s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    
-    .header { text-align: center; color: var(--primary); font-size: 18px; margin: 15px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(0,255,234,0.5); }
-    
-    .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; box-shadow: 0 0 20px rgba(0,0,0,0.5); margin-bottom: 20px; position: relative; overflow: hidden; }
-    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--primary), transparent); animation: scan 2s linear infinite; }
-    @keyframes scan { 0% { left: -100%; } 100% { left: 100%; } }
+    /* LOGIN STYLES */
+    #loginSection { 
+      position: fixed; inset: 0; 
+      background: radial-gradient(circle, rgba(0,255,234,0.15) 0%, rgba(0,0,0,1) 80%);
+      display: flex; align-items: center; justify-content: center; z-index: 1000; 
+    }
+    .login-card { 
+      background: var(--card); padding: 35px; border-radius: 20px; 
+      border: 2px solid var(--primary); text-align: center; width: 85%; max-width: 360px; 
+      box-shadow: 0 0 30px rgba(0,255,234,0.3);
+    }
+    .login-input { 
+      width: 100%; padding: 14px; margin: 20px 0; border-radius: 10px; border: 1px solid #333; 
+      background: #000; color: #fff; text-align: center; outline: none; font-size: 16px;
+    }
+    .login-btn { 
+      width: 100%; padding: 14px; background: var(--primary); color: #000; 
+      font-weight: bold; border: none; border-radius: 10px; cursor: pointer; font-size: 16px;
+    }
 
-    .prediction-box { font-size: 50px; font-weight: 800; text-align: center; margin: 10px 0; letter-spacing: 5px; transition: 0.5s; }
-    
-    .status-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; margin-top: 15px; color: #888; border-top: 1px solid #222; padding-top: 10px; }
-    .highlight { color: var(--primary); font-weight: bold; }
+    /* MAIN APP */
+    #mainApp { display: none; width: 100%; max-width: 480px; padding: 15px; box-sizing: border-box; }
+    .header { text-align: center; color: var(--primary); font-size: 20px; margin: 15px 0; font-weight: bold; letter-spacing: 1px; }
 
-    .table-container { background: #0a0a0a; border-radius: 12px; overflow: hidden; border: 1px solid #222; margin-top: 10px; }
+    .card { 
+      background: var(--card); border-radius: 15px; padding: 20px; 
+      border: 1px solid #222; margin-bottom: 15px; position: relative;
+    }
+    
+    .prediction-display {
+      font-size: 55px; font-weight: 800; text-align: center; margin: 15px 0;
+      text-shadow: 0 0 20px rgba(0,255,234,0.4); transition: 0.4s;
+    }
+
+    /* Status Grid */
+    .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+    .status-item { 
+      background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; 
+      text-align: center; border: 1px solid #222;
+    }
+    .status-label { font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 4px; }
+    .status-value { font-size: 14px; font-weight: bold; color: var(--primary); }
+
+    /* Accuracy Bar */
+    .accuracy-container { margin: 15px 0; }
+    .accuracy-bar { height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin-top: 5px; }
+    .accuracy-fill { height: 100%; background: var(--primary); width: 0%; transition: width 1s ease; box-shadow: 0 0 10px var(--primary); }
+
+    /* Tabs & Table */
+    .tab-nav { display: flex; gap: 10px; margin-bottom: 10px; }
+    .tab-btn { 
+      flex: 1; padding: 10px; background: #111; border: 1px solid #333; 
+      color: #888; border-radius: 8px; cursor: pointer; font-size: 13px;
+    }
+    .tab-btn.active { background: rgba(0,255,234,0.1); border-color: var(--primary); color: var(--primary); }
+
+    .table-box { 
+      background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #222; 
+      max-height: 400px; overflow-y: auto;
+    }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { padding: 12px; background: #151515; color: var(--primary); border-bottom: 2px solid #222; font-size: 11px; }
-    td { padding: 12px; text-align: center; border-bottom: 1px solid #111; }
+    th { padding: 12px; background: #181818; color: var(--primary); font-size: 11px; }
+    td { padding: 12px; text-align: center; border-bottom: 1px solid #181818; }
     
-    .red-bg { color: var(--loss); font-weight: bold; } 
-    .green-bg { color: var(--win); font-weight: bold; }
-    .gold { color: var(--accent); }
-    
-    .footer { font-size: 10px; text-align: center; margin-top: 20px; color: #555; letter-spacing: 1px; padding-bottom: 30px; }
+    .win-text { color: var(--win); font-weight: bold; }
+    .loss-text { color: var(--loss); font-weight: bold; }
+    .gold-text { color: var(--accent); }
+
+    .footer { text-align: center; font-size: 10px; color: #444; margin-top: 20px; padding-bottom: 30px; }
   </style>
 </head>
 <body>
 
   <div id="loginSection">
     <div class="login-card">
-      <h2 style="color:var(--primary); margin:0; font-style: italic;">PREDICT X-PRO</h2>
-      <p style="font-size:10px; color:#888; margin-top:5px;">AI DEEP LEARNING & RECURSIVE PATTERN</p>
-      <input type="password" id="passInput" placeholder="Enter VIP Key">
-      <button onclick="checkLogin()" class="login-btn">INJECT SYSTEM</button>
-      <p id="error" style="color:var(--loss); display:none; font-size:12px; margin-top:10px;">Invalid Key!</p>
+      <div class="header" style="margin:0;">◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 °•◈</div>
+      <p style="font-size: 11px; color: #666; margin-top: 5px;">92K DATA NODE ANALYZER V6.0</p>
+      <input type="password" id="passInput" class="login-input" placeholder="Enter VIP Password">
+      <button onclick="checkLogin()" class="login-btn">ACCESS SYSTEM</button>
+      <p id="loginError" style="color:var(--loss); font-size: 12px; display:none; margin-top: 15px;">Access Denied! Incorrect Key.</p>
     </div>
   </div>
 
@@ -58,185 +115,228 @@
 
     <div class="card">
       <div style="display: flex; justify-content: space-between; font-size: 14px;">
-        <span>Period: <b id="periodDisplay" class="highlight">----</b></span>
-        <span>Timer: <b id="timer" style="color:#fff;">--s</b></span>
+        <span>Period: <b id="periodText" style="color:var(--primary);">----</b></span>
+        <span>Timer: <b id="timerText" style="color:#fff;">30s</b></span>
       </div>
-      <div id="prediction" class="prediction-box">SCANNING</div>
-      <div class="status-bar">
-        <span>Accuracy: <span id="confPercent" class="highlight">0%</span></span>
-        <span>Node Matches: <span id="matchFound" class="highlight">0</span></span>
-        <span>Mode: <span id="modeStatus" class="highlight">CALIBRATING</span></span>
-        <span>Sync: <span id="syncStatus" class="highlight">92K OK</span></span>
+      
+      <div id="predictionOutput" class="prediction-display">ANALYZING</div>
+
+      <div class="accuracy-container">
+        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+          <span>AI Confidence</span>
+          <span id="accuracyPercent">0%</span>
+        </div>
+        <div class="accuracy-bar"><div id="accuracyFill" class="accuracy-fill"></div></div>
+      </div>
+
+      <div class="status-grid">
+        <div class="status-item"><div class="status-label">Matches</div><div id="matchCount" class="status-value">0</div></div>
+        <div class="status-item"><div class="status-label">Trend</div><div id="trendMode" class="status-value">STABLE</div></div>
+        <div class="status-item"><div class="status-label">Total Wins</div><div id="totalWins" class="status-value" style="color:var(--win);">0</div></div>
+        <div class="status-item"><div class="status-label">Accuracy</div><div id="overallRate" class="status-value">0%</div></div>
       </div>
     </div>
 
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr><th>Period</th><th>Number</th><th>Size</th><th>Result</th></tr>
-        </thead>
-        <tbody id="logTable"></tbody>
+    <div class="tab-nav">
+      <button id="btnPred" class="tab-btn active" onclick="switchTab('pred')">PREDICTIONS</button>
+      <button id="btnHist" class="tab-btn" onclick="switchTab('hist')">GAME HISTORY</button>
+    </div>
+
+    <div class="table-box">
+      <table id="mainTable">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
       </table>
     </div>
 
     <div class="footer">
-      SYSTEM: V5.2 ANTI-LAG | DB: GITHUB REPO SYNC<br>
-      © DEVELOPED BY ◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 °•◈
+      AI DATABASE: GITHUB REPOSITORY SYNCED (92,000 NODES)<br>
+      Developed by: ◈•° 𝑱𝒐𝒚 𝑩𝒂𝒉𝒊 °•◈
     </div>
   </div>
 
 <script>
-const PASS = "Soikat2580";
-const LIVE_API = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
+const CONFIG = {
+  key: "@Soikat5262",
+  api: "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",
+  dbUrl: "data.json"
+};
 
-let bigDatabase = []; 
+let bigDB = [];
+let liveHistory = [];
+let predictionLog = [];
+let lastProcessedPeriod = null;
 let currentPrediction = null;
-let currentTargetPeriod = null;
-let winLossStore = {}; 
+let activeTab = 'pred';
+let stats = { wins: 0, total: 0 };
 
 async function checkLogin() {
-  const pass = document.getElementById('passInput').value;
-  if(pass === PASS) {
+  const input = document.getElementById('passInput').value;
+  if(input === CONFIG.key) {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
-    
-    // ৯২ হাজার ডাটা লোড করা
-    try {
-      const res = await fetch('data.json');
-      const data = await res.json();
-      bigDatabase = Array.isArray(data) ? data : (data.list || []);
-      console.log("Database Loaded: " + bigDatabase.length);
-    } catch (e) { console.error("Database fail"); }
-
-    initSystem();
+    await loadDatabase();
+    startSystem();
   } else {
-    document.getElementById('error').style.display = 'block';
+    document.getElementById('loginError').style.display = 'block';
   }
 }
 
-function initSystem() {
-  // প্রাথমিক ডাটা ফেচ
+async function loadDatabase() {
+  try {
+    const res = await fetch(CONFIG.dbUrl);
+    const data = await res.json();
+    bigDB = Array.isArray(data) ? data : (data.list || []);
+  } catch (e) { console.warn("DB Load failed, using live data only."); }
+}
+
+function startSystem() {
   fetchLive();
-  // প্রতি ৩ সেকেন্ডে ডাটা রিফ্রেশ (যাতে গ্যাপ না পড়ে)
   setInterval(fetchLive, 3000);
-  // টাইমার আপডেট
-  setInterval(() => {
-    let seconds = new Date().getSeconds();
-    let remaining = 30 - (seconds % 30);
-    document.getElementById('timer').innerText = remaining + "s";
-  }, 1000);
+  setInterval(updateTimer, 1000);
+}
+
+function updateTimer() {
+  const sec = new Date().getSeconds();
+  const remaining = 30 - (sec % 30);
+  document.getElementById('timerText').innerText = remaining + "s";
+  if(remaining === 30) fetchLive();
 }
 
 async function fetchLive() {
   try {
-    const res = await fetch(`${LIVE_API}?t=${Date.now()}`);
+    const res = await fetch(`${CONFIG.api}?t=${Date.now()}`);
     const json = await res.json();
     if(json.data && json.data.list) {
-      processLogic(json.data.list);
+      liveHistory = json.data.list;
+      processLogic();
     }
   } catch (e) {}
 }
 
-function processLogic(history) {
-  const latest = history[0];
-  const nextPeriod = (BigInt(latest.issueNumber) + 1n).toString();
-  
-  // ১. উইন/লস চেক করা (আগের রেজাল্ট আসার পর)
-  if (currentTargetPeriod === latest.issueNumber && currentPrediction !== null) {
-    const actualResult = parseInt(latest.number) >= 5 ? "BIG" : "SMALL";
-    winLossStore[latest.issueNumber] = (currentPrediction === actualResult) ? "WIN" : "LOSS";
+function processLogic() {
+  const latest = liveHistory[0];
+  const nextP = (BigInt(latest.issueNumber) + 1n).toString();
+
+  // ১. উইন-লস চেক (আগের প্রেডিকশন সফল কি না)
+  if (lastProcessedPeriod === latest.issueNumber && currentPrediction) {
+    const actual = parseInt(latest.number) >= 5 ? "BIG" : "SMALL";
+    const isWin = (currentPrediction.result === actual);
+    
+    predictionLog.unshift({
+      period: lastProcessedPeriod,
+      prediction: currentPrediction.result,
+      actual: actual,
+      num: latest.number,
+      status: isWin ? 'WIN' : 'LOSS'
+    });
+
+    if(isWin) stats.wins++;
+    stats.total++;
+    updateStatsUI();
   }
 
-  // ২. প্যাটার্ন এনালাইসিস (ডিপ স্ক্যান)
-  // গত ৪টি ডাটার প্যাটার্ন নেওয়া (উইন রেট বাড়ানোর জন্য ৪-৫টি প্যাটার্ন বেস্ট)
-  const pattern = history.slice(0, 4).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
-  
-  let weights = { BIG: 0, SMALL: 0 };
-  let matches = 0;
+  // ২. ডিপ প্যাটার্ন এনালাইসিস (Recursive logic)
+  const pattern = liveHistory.slice(0, 4).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
+  let weightB = 0, weightS = 0, matches = 0;
 
-  if(bigDatabase.length > 10) {
-    // ডাটাবেস সার্চ
-    for (let i = 0; i < bigDatabase.length - 5; i++) {
+  if(bigDB.length > 0) {
+    for(let i=0; i < bigDB.length - 5; i++) {
       let dbP = "";
       for(let j=0; j<4; j++) {
-        dbP += parseInt(bigDatabase[i+j+1].number) >= 5 ? 'B' : 'S';
+        dbP += parseInt(bigDB[i+j+1].number) >= 5 ? 'B' : 'S';
       }
-
+      
       if(dbP === pattern) {
         matches++;
-        const nextVal = parseInt(bigDatabase[i].number) >= 5 ? "BIG" : "SMALL";
+        let importance = 1;
+        // Time cycle match: ১ দিন (২৮৮০ পিরিয়ড) বা ১ সপ্তাহ আগের মিল
+        if(i % 2880 < 5) importance = 10; 
         
-        // --- PRO LOGIC: Time & Cycle Weighting ---
-        let weight = 1;
-        // ১ দিন আগের একই সময়ের ডাটা হলে একে বেশি গুরুত্ব দাও (২৮৮০ পিরিয়ড = ১ দিন)
-        if (i % 2880 < 5) weight += 10; 
-        // ১ সপ্তাহ আগের ডাটা হলে আরও বেশি গুরুত্ব
-        if (i % 20160 < 5) weight += 20;
-
-        weights[nextVal] += weight;
+        if(parseInt(bigDB[i].number) >= 5) weightB += importance; 
+        else weightS += importance;
       }
     }
   }
 
-  // ৩. প্রেডিকশন ক্যালকুলেশন
-  let finalDecision = "WAIT";
-  let accuracy = 0;
+  // ৩. সিদ্ধান্ত গ্রহণ
+  let decision = "WAIT";
+  let conf = 0;
 
   if (matches > 0) {
-    const totalWeight = weights.BIG + weights.SMALL;
-    if (weights.BIG > weights.SMALL) {
-      finalDecision = "BIG";
-      accuracy = (weights.BIG / totalWeight) * 100;
+    if (weightB > weightS) {
+      decision = "BIG";
+      conf = (weightB / (weightB + weightS)) * 100;
     } else {
-      finalDecision = "SMALL";
-      accuracy = (weights.SMALL / totalWeight) * 100;
-    }
-    
-    // নিশ্চিত করার জন্য মিনিমাম ম্যাচ থাকতে হবে
-    if (matches < 2) {
-      finalDecision = "CALIBRATING";
-      accuracy = 0;
+      decision = "SMALL";
+      conf = (weightS / (weightB + weightS)) * 100;
     }
   }
 
   // ৪. UI আপডেট
-  document.getElementById('periodDisplay').innerText = nextPeriod.slice(-4);
-  const predEl = document.getElementById('prediction');
-  predEl.innerText = finalDecision;
+  document.getElementById('periodText').innerText = nextP.slice(-4);
+  const out = document.getElementById('predictionOutput');
+  out.innerText = decision;
+  out.style.color = decision === "BIG" ? "#ff9900" : (decision === "SMALL" ? "#00aaff" : "#fff");
   
-  // কালার থিম
-  if(finalDecision === "BIG") predEl.style.color = "#ff9900";
-  else if(finalDecision === "SMALL") predEl.style.color = "#00aaff";
-  else predEl.style.color = "var(--primary)";
+  document.getElementById('accuracyPercent').innerText = Math.round(conf) + "%";
+  document.getElementById('accuracyFill').style.width = conf + "%";
+  document.getElementById('matchCount').innerText = matches;
+  document.getElementById('trendMode').innerText = conf > 80 ? "STRONG" : "NORMAL";
 
-  document.getElementById('confPercent').innerText = Math.round(accuracy) + "%";
-  document.getElementById('matchFound').innerText = matches;
-  document.getElementById('modeStatus').innerText = accuracy > 75 ? "HIGH PROB" : "STABLE";
-
-  // টার্গেট সেট করা পরবর্তী রেজাল্ট চেক করার জন্য
-  if (currentTargetPeriod !== nextPeriod) {
-    currentPrediction = (finalDecision === "BIG" || finalDecision === "SMALL") ? finalDecision : null;
-    currentTargetPeriod = nextPeriod;
-  }
-
-  renderTable(history);
+  currentPrediction = { period: nextP, result: decision };
+  lastProcessedPeriod = nextP;
+  
+  renderTable();
 }
 
-function renderTable(history) {
-  let tableHtml = "";
-  history.slice(0, 10).forEach(item => {
-    const isBig = parseInt(item.number) >= 5;
-    const resultStatus = winLossStore[item.issueNumber] || "---";
-    const resClass = resultStatus === "WIN" ? "green-bg" : (resultStatus === "LOSS" ? "red-bg" : "");
-    
-    tableHtml += `<tr>
-      <td>${item.issueNumber.slice(-4)}</td>
-      <td class="gold">${item.number}</td>
-      <td class="${isBig ? 'red-bg' : 'green-bg'}">${isBig ? 'BIG' : 'SMALL'}</td>
-      <td class="${resClass}">${resultStatus}</td>
-    </tr>`;
-  });
-  document.getElementById('logTable').innerHTML = tableHtml;
+function updateStatsUI() {
+  document.getElementById('totalWins').innerText = stats.wins;
+  const rate = stats.total > 0 ? Math.round((stats.wins / stats.total) * 100) : 0;
+  document.getElementById('overallRate').innerText = rate + "%";
+}
+
+function switchTab(t) {
+  activeTab = t;
+  document.getElementById('btnPred').className = t === 'pred' ? 'tab-btn active' : 'tab-btn';
+  document.getElementById('btnHist').className = t === 'hist' ? 'tab-btn active' : 'tab-btn';
+  renderTable();
+}
+
+function renderTable() {
+  const head = document.getElementById('tableHead');
+  const body = document.getElementById('tableBody');
+  let h = "";
+  let b = "";
+
+  if(activeTab === 'pred') {
+    h = "<tr><th>Period</th><th>Predict</th><th>Actual</th><th>Num</th><th>Status</th></tr>";
+    predictionLog.slice(0, 15).forEach(item => {
+      b += `<tr>
+        <td>${item.period.slice(-4)}</td>
+        <td style="color:${item.prediction === 'BIG' ? '#ff9900' : '#00aaff'}">${item.prediction}</td>
+        <td>${item.actual}</td>
+        <td class="gold-text">${item.num}</td>
+        <td class="${item.status === 'WIN' ? 'win-text' : 'loss-text'}">${item.status}</td>
+      </tr>`;
+    });
+    if(predictionLog.length === 0) b = "<tr><td colspan='5'>Waiting for next result...</td></tr>";
+  } else {
+    h = "<tr><th>Period</th><th>Number</th><th>Size</th><th>Color</th></tr>";
+    liveHistory.slice(0, 15).forEach(item => {
+      const isB = parseInt(item.number) >= 5;
+      const color = [1,3,7,9].includes(parseInt(item.number)) ? 'lime' : ([2,4,6,8].includes(parseInt(item.number)) ? 'red' : 'violet');
+      b += `<tr>
+        <td>${item.issueNumber.slice(-4)}</td>
+        <td class="gold-text">${item.number}</td>
+        <td class="${isB ? 'loss-text' : 'win-text'}">${isB ? 'BIG' : 'SMALL'}</td>
+        <td><span style="height:10px; width:10px; background:${color}; display:inline-block; border-radius:50%;"></span></td>
+      </tr>`;
+    });
+  }
+
+  head.innerHTML = h;
+  body.innerHTML = b;
 }
 </script>
 </body>
