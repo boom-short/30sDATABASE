@@ -3,210 +3,198 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>◈•° King Soikat Bahi VIP Brain °•◈</title>
+  <title>◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 𝑽𝑰𝑷 °•◈</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root { --primary: #00ffea; --bg: #050505; --card: #121212; --win: #00ff88; --loss: #ff4444; --accent: #ffd700; }
-    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+    :root { --primary: #00ffea; --bg: #050505; --card: #121212; --win: #00ff88; --loss: #ff4444; }
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
     
-    #loginSection { position: fixed; inset: 0; background: radial-gradient(circle, rgba(0,255,234,0.1) 0%, #000 90%); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-    .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 2px solid var(--primary); text-align: center; width: 80%; max-width: 350px; box-shadow: 0 0 30px rgba(0,255,234,0.2); }
-    .login-input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 10px; border: 1px solid #333; background: #000; color: #fff; text-align: center; outline: none; }
-    .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; }
+    #loginSection { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; width: 85%; max-width: 350px; }
+    input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; box-sizing: border-box; outline: none; }
+    .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
 
-    #mainApp { display: none; width: 100%; max-width: 480px; animation: fadeIn 0.5s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    #mainApp { display: none; width: 100%; max-width: 500px; }
+    .header { text-align: center; color: var(--primary); font-size: 18px; margin: 15px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
     
-    .header { text-align: center; color: var(--primary); font-size: 20px; margin: 15px 0; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
-    .card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid #222; margin-bottom: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; box-shadow: 0 0 20px rgba(0,255,234,0.1); margin-bottom: 20px; }
+    .prediction-box { font-size: 45px; font-weight: bold; text-align: center; margin: 10px 0; color: var(--primary); text-shadow: 0 0 15px var(--primary); }
     
-    .prediction-box { font-size: 65px; font-weight: 900; text-align: center; margin: 15px 0; letter-spacing: 5px; transition: 0.3s; }
-    .status-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; margin-top: 15px; color: #888; border-top: 1px solid #333; padding-top: 15px; }
+    .status-bar { display: flex; justify-content: space-between; font-size: 12px; margin-top: 10px; color: #888; }
     .highlight { color: var(--primary); font-weight: bold; }
 
-    .accuracy-meter { height: 8px; background: #222; border-radius: 10px; overflow: hidden; margin: 10px 0; }
-    .accuracy-fill { height: 100%; background: var(--primary); width: 0%; transition: 1s ease-in-out; box-shadow: 0 0 10px var(--primary); }
-
-    .table-container { background: #0a0a0a; border-radius: 15px; overflow: hidden; border: 1px solid #222; margin-top: 10px; }
+    .table-container { background: #0a0a0a; border-radius: 12px; overflow: hidden; border: 1px solid #222; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th { padding: 12px; background: #151515; color: var(--primary); border-bottom: 2px solid #222; }
     td { padding: 12px; text-align: center; border-bottom: 1px solid #111; }
     
-    .win-tag { color: var(--win); font-weight: bold; } .loss-tag { color: var(--loss); font-weight: bold; }
-    .brain-badge { position: absolute; top: 12px; right: 15px; font-size: 10px; background: rgba(0,255,234,0.1); color: var(--primary); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--primary); }
+    .red { color: var(--loss); font-weight: bold; } 
+    .green { color: var(--win); font-weight: bold; }
+    .gold { color: #ffd700; }
+    
+    .footer { font-size: 10px; text-align: center; margin-top: 20px; color: #555; letter-spacing: 1px; }
   </style>
 </head>
 <body>
 
   <div id="loginSection">
     <div class="login-card">
-      <h2 style="color:var(--primary); margin:0;">BRAIN ACCESS</h2>
-      <p style="font-size:11px; color:#888;">NEURAL NETWORK V9.2 (92K NODES)</p>
-      <input type="password" id="passInput" class="login-input" placeholder="Enter VIP Key">
-      <button onclick="checkLogin()" class="login-btn">ACTIVATE BRAIN</button>
+      <h2 style="color:var(--primary); margin:0;">VIP ACCESS</h2>
+      <p style="font-size:12px; color:#888;">92K NODE REAL-TIME SCANNER</p>
+      <input type="password" id="passInput" placeholder="Enter VIP Key">
+      <button onclick="checkLogin()" class="login-btn">INJECT & START</button>
+      <p id="error" style="color:var(--loss); display:none; font-size:12px; margin-top:10px;">Access Denied!</p>
     </div>
   </div>
 
   <div id="mainApp">
-    <div class="header">◈•° King Soikat Bahi VIP °•◈</div>
-    <div class="card">
-      <div id="brainStatus" class="brain-badge">ANALYZING TREND</div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px;">
-        <span>Period: <b id="periodDisplay" class="highlight">----</b></span>
-        <span>Refresh: <b id="timer" style="color:#fff;">--s</b></span>
-      </div>
-      
-      <div id="prediction" class="prediction-box">SCAN</div>
-      
-      <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
-        <span>AI Intelligence Score</span>
-        <span id="intelPercent">0%</span>
-      </div>
-      <div class="accuracy-meter"><div id="intelFill" class="accuracy-fill"></div></div>
+    <div class="header">◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 𝑽𝑰𝑷 °•◈</div>
 
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; font-size: 14px;">
+        <span>Next Period: <b id="periodDisplay" class="highlight">----</b></span>
+        <span>Refresh: <b id="timer" style="color:#fff;">30s</b></span>
+      </div>
+      <div id="prediction" class="prediction-box">SCANNING</div>
       <div class="status-bar">
-        <span>Matches Found: <span id="matchFound" class="highlight">0</span></span>
-        <span>Brain Mode: <span id="brainMode" class="highlight">STABLE</span></span>
-        <span>Loss Streak: <span id="streakCount" style="color:var(--loss);">0</span></span>
-        <span>Signal Type: <span id="signalType" class="highlight">NEURAL</span></span>
+        <span>Accuracy: <span id="confPercent" class="highlight">0%</span></span>
+        <span>Patterns: <span id="matchFound" class="highlight">0</span></span>
       </div>
     </div>
 
     <div class="table-container">
       <table>
-        <thead><tr><th>Period</th><th>Brain Predict</th><th>Actual</th><th>Num</th><th>Result</th></tr></thead>
+        <thead>
+          <tr><th>Period</th><th>Num</th><th>Size</th><th>Result</th></tr>
+        </thead>
         <tbody id="logTable"></tbody>
       </table>
     </div>
-    
-    <div style="text-align: center; font-size: 10px; color: #444; margin-top: 15px; padding-bottom: 20px;">
-      DB: GITHUB REPOSITORY SYNCED (92,000 NODES)<br>
-      © Developed by: ◈•° Joy Bahi °•◈
+
+    <div class="footer">
+      SCANNING INTERVAL: 1 SEC | DATA DEPTH: 92,000<br>
+      Developed by: ◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 °•◈
     </div>
   </div>
 
 <script>
-const PASS = "@Soikat5262";
-const API = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
-let bigDB = []; 
-let lastPeriod = null;
-let currentPrediction = null;
-let records = [];
-let streak = 0;
+const PASS = "Soikat2580";
+const LIVE_API = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
+
+let bigDatabase = []; 
+let lastPrediction = null;
+let lastTargetPeriod = null;
+let winLossHistory = {}; // কোনো LocalStorage ব্যবহার করা হয়নি
 
 async function checkLogin() {
-  if(document.getElementById('passInput').value === PASS) {
+  const pass = document.getElementById('passInput').value;
+  if(pass === PASS) {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
-    loadData();
+    
+    try {
+      const res = await fetch('data.json');
+      const data = await res.json();
+      bigDatabase = data.list || data;
+    } catch (e) { console.error("Database error"); }
+
+    startEngine();
+  } else {
+    document.getElementById('error').style.display = 'block';
   }
 }
 
-async function loadData() {
-  try {
-    const res = await fetch('data.json');
-    const data = await res.json();
-    bigDB = data.list || data;
-    startApp();
-  } catch (e) { startApp(); }
-}
-
-function startApp() {
+function startEngine() {
   fetchLive();
-  setInterval(fetchLive, 3000);
+  setInterval(fetchLive, 4000);
+  setInterval(() => { if(window.currentLiveHistory) runDeepScan(window.currentLiveHistory); }, 1000);
   setInterval(() => {
-    let s = new Date().getSeconds();
-    document.getElementById('timer').innerText = (30 - (s % 30)) + "s";
+    let r = 30 - (new Date().getSeconds() % 30);
+    document.getElementById('timer').innerText = r + "s";
   }, 1000);
 }
 
 async function fetchLive() {
   try {
-    const res = await fetch(`${API}?t=${Date.now()}`);
+    const res = await fetch(`${LIVE_API}?t=${Date.now()}`);
     const json = await res.json();
-    if(json.data && json.data.list) runBrain(json.data.list);
+    if(json.data && json.data.list) {
+      const history = json.data.list;
+      window.currentLiveHistory = history;
+      updateWinLossLogic(history[0]);
+    }
   } catch (e) {}
 }
 
-function runBrain(live) {
-  const latest = live[0];
-  const nextP = (BigInt(latest.issueNumber) + 1n).toString();
+function updateWinLossLogic(latestResult) {
+    const period = latestResult.issueNumber;
+    const actual = parseInt(latestResult.number) >= 5 ? "BIG" : "SMALL";
 
-  // ১. মানুষের মতো বুঝা (Self-Learning from Loss)
-  if (lastPeriod === latest.issueNumber && currentPrediction) {
-    const actual = parseInt(latest.number) >= 5 ? "BIG" : "SMALL";
-    const status = (currentPrediction === actual) ? "WIN" : "LOSS";
-    
-    if(status === "LOSS") streak++; else streak = 0;
-
-    records.unshift({period: lastPeriod, pred: currentPrediction, actual: actual, num: latest.number, status: status});
-    renderLogs();
-  }
-
-  // ২. নিউরাল প্যাটার্ন এনালাইসিস
-  const currentKey = live.slice(0, 4).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
-  let weightB = 0, weightS = 0, matches = 0;
-
-  for (let i = 0; i < bigDB.length - 6; i++) {
-    let dbKey = "";
-    for (let j = 0; j < 4; j++) dbKey += (parseInt(bigDB[i+j+1].number) >= 5 ? 'B' : 'S');
-
-    if (dbKey === currentKey) {
-      matches++;
-      let score = (i % 2880 < 5) ? 20 : 1; // Time-based priority
-      if (parseInt(bigDB[i].number) >= 5) weightB += score; else weightS += score;
+    if (lastTargetPeriod === period && lastPrediction !== null) {
+        winLossHistory[period] = (lastPrediction === actual) ? "WIN" : "LOSS";
+        lastPrediction = null; 
+        lastTargetPeriod = null;
     }
-  }
-
-  // ৩. ব্রেইন ডিসিশন মেকিং
-  let decision = "WAIT";
-  let intelligence = 0;
-
-  if (matches > 0) {
-    decision = weightB > weightS ? "BIG" : "SMALL";
-    intelligence = (Math.max(weightB, weightS) / (weightB + weightS)) * 100;
-
-    // --- Adaptive Logic (স্ক্রিনশটের ভুলগুলো কমানোর জন্য) ---
-    if (streak >= 2) {
-      // যদি ২ বার লস হয়, তবে সিস্টেম 'Inverse Mode' এ চলে যাবে
-      decision = (decision === "BIG") ? "SMALL" : "BIG";
-      document.getElementById('brainStatus').innerText = "INVERSE MODE";
-      document.getElementById('brainMode').innerText = "CORRECTING";
-    } else {
-      document.getElementById('brainStatus').innerText = "STABLE TREND";
-      document.getElementById('brainMode').innerText = "SMART SCAN";
-    }
-  }
-
-  // ৪. UI আপডেট
-  document.getElementById('periodDisplay').innerText = nextP.slice(-4);
-  const pBox = document.getElementById('prediction');
-  pBox.innerText = decision;
-  pBox.style.color = decision === "BIG" ? "#ff9900" : (decision === "SMALL" ? "#00aaff" : "#fff");
-  
-  document.getElementById('intelPercent').innerText = Math.round(intelligence) + "%";
-  document.getElementById('intelFill').style.width = intelligence + "%";
-  document.getElementById('matchFound').innerText = matches;
-  document.getElementById('streakCount').innerText = streak;
-
-  currentPrediction = decision !== "WAIT" ? decision : null;
-  lastPeriod = nextP;
 }
 
-function renderLogs() {
-  let h = "";
-  records.slice(0, 10).forEach(x => {
-    h += `<tr>
-      <td>${x.period.slice(-4)}</td>
-      <td style="color:${x.pred==='BIG'?'#ff9900':'#00aaff'}">${x.pred}</td>
-      <td>${x.actual}</td>
-      <td style="color:#ffd700">${x.num}</td>
-      <td class="${x.status==='WIN'?'win-tag':'loss-tag'}">${x.status}</td>
+function runDeepScan(history) {
+  const latest = history[0];
+  const nextPeriod = (BigInt(latest.issueNumber) + 1n).toString();
+  document.getElementById('periodDisplay').innerText = nextPeriod.slice(-4);
+
+  const currentKey = history.slice(0, 5).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
+  let bCount = 0, sCount = 0, matchCount = 0;
+  
+  if(bigDatabase.length > 0) {
+    for (let i = 0; i < bigDatabase.length - 6; i++) {
+      let pKey = "";
+      for(let j=0; j<5; j++) {
+        pKey += parseInt(bigDatabase[i+j+1].number) >= 5 ? 'B' : 'S';
+      }
+      if(pKey === currentKey) {
+        matchCount++;
+        if(parseInt(bigDatabase[i].number) >= 5) bCount++; else sCount++;
+      }
+    }
+  }
+
+  let pred = "WAIT";
+  let conf = 0;
+
+  if (matchCount > 0) {
+    if (bCount > sCount) { pred = "BIG"; conf = (bCount/matchCount)*100; }
+    else if (sCount > bCount) { pred = "SMALL"; conf = (sCount/matchCount)*100; }
+    
+    if (lastTargetPeriod !== nextPeriod) {
+        lastPrediction = pred;
+        lastTargetPeriod = nextPeriod;
+    }
+  }
+
+  const pDiv = document.getElementById('prediction');
+  pDiv.innerText = pred;
+  pDiv.style.color = pred === "BIG" ? "#ff9900" : (pred === "SMALL" ? "#00aaff" : "#00ffea");
+  document.getElementById('confPercent').innerText = Math.round(conf) + "%";
+  document.getElementById('matchFound').innerText = matchCount;
+  
+  renderTable(history);
+}
+
+function renderTable(history) {
+  let html = "";
+  history.slice(0, 10).forEach(item => {
+    const isB = parseInt(item.number) >= 5;
+    const status = winLossHistory[item.issueNumber] || "---";
+    const statusClass = status === "WIN" ? "green" : (status === "LOSS" ? "red" : "");
+    html += `<tr>
+      <td>${item.issueNumber.slice(-4)}</td>
+      <td class="gold">${item.number}</td>
+      <td class="${isB ? 'red' : 'green'}">${isB ? 'BIG' : 'SMALL'}</td>
+      <td class="${statusClass}">${status}</td>
     </tr>`;
   });
-  document.getElementById('logTable').innerHTML = h;
+  document.getElementById('logTable').innerHTML = html;
 }
 </script>
 </body>
 </html>
-
