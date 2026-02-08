@@ -6,32 +6,25 @@
   <title>◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 𝑽𝑰𝑷 °•◈</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root { --primary: #00ffea; --bg: #050505; --card: #121212; --win: #00ff88; --loss: #ff4444; }
+    :root { --primary: #00ffea; --bg: #050505; --card: #121212; --win: #00ff88; --loss: #ff4444; --warning: #ffd700; }
     body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
-    
     #loginSection { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
     .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; width: 85%; max-width: 350px; }
     input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; box-sizing: border-box; outline: none; }
     .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
-
     #mainApp { display: none; width: 100%; max-width: 500px; }
     .header { text-align: center; color: var(--primary); font-size: 18px; margin: 15px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-    
     .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; box-shadow: 0 0 20px rgba(0,255,234,0.1); margin-bottom: 20px; }
-    .prediction-box { font-size: 45px; font-weight: bold; text-align: center; margin: 10px 0; color: var(--primary); text-shadow: 0 0 15px var(--primary); }
-    
+    .prediction-box { font-size: 45px; font-weight: bold; text-align: center; margin: 10px 0; text-shadow: 0 0 15px var(--primary); }
     .status-bar { display: flex; justify-content: space-between; font-size: 12px; margin-top: 10px; color: #888; }
     .highlight { color: var(--primary); font-weight: bold; }
-
     .table-container { background: #0a0a0a; border-radius: 12px; overflow: hidden; border: 1px solid #222; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th { padding: 12px; background: #151515; color: var(--primary); border-bottom: 2px solid #222; }
     td { padding: 12px; text-align: center; border-bottom: 1px solid #111; }
-    
     .red { color: var(--loss); font-weight: bold; } 
     .green { color: var(--win); font-weight: bold; }
     .gold { color: #ffd700; }
-    
     .footer { font-size: 10px; text-align: center; margin-top: 20px; color: #555; letter-spacing: 1px; }
   </style>
 </head>
@@ -40,7 +33,7 @@
   <div id="loginSection">
     <div class="login-card">
       <h2 style="color:var(--primary); margin:0;">VIP ACCESS</h2>
-      <p style="font-size:12px; color:#888;">92K NODE REAL-TIME SCANNER</p>
+      <p style="font-size:12px; color:#888;">TREND ARCHITECT V3.0 ACTIVE</p>
       <input type="password" id="passInput" placeholder="Enter VIP Key">
       <button onclick="checkLogin()" class="login-btn">INJECT & START</button>
       <p id="error" style="color:var(--loss); display:none; font-size:12px; margin-top:10px;">Access Denied!</p>
@@ -53,12 +46,12 @@
     <div class="card">
       <div style="display: flex; justify-content: space-between; font-size: 14px;">
         <span>Next Period: <b id="periodDisplay" class="highlight">----</b></span>
-        <span>Refresh: <b id="timer" style="color:#fff;">30s</b></span>
+        <span>Refresh: <b id="timer" style="color:#fff;">--s</b></span>
       </div>
       <div id="prediction" class="prediction-box">SCANNING</div>
       <div class="status-bar">
-        <span>Accuracy: <span id="confPercent" class="highlight">0%</span></span>
-        <span>Patterns: <span id="matchFound" class="highlight">0</span></span>
+        <span>Conf: <span id="confPercent" class="highlight">0%</span></span>
+        <span>Trend: <span id="trendType" class="highlight">DETECTING</span></span>
       </div>
     </div>
 
@@ -72,7 +65,7 @@
     </div>
 
     <div class="footer">
-      SCANNING INTERVAL: 1 SEC | DATA DEPTH: 92,000<br>
+      AI SCANNER: ON | PATTERN SYNC: ACTIVE<br>
       Developed by: ◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 °•◈
     </div>
   </div>
@@ -82,9 +75,10 @@ const PASS = "Soikat2580";
 const LIVE_API = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
 
 let bigDatabase = []; 
+let combinedData = [];
 let lastPrediction = null;
 let lastTargetPeriod = null;
-let winLossHistory = {}; // কোনো LocalStorage ব্যবহার করা হয়নি
+let winLossHistory = {};
 
 async function checkLogin() {
   const pass = document.getElementById('passInput').value;
@@ -96,7 +90,7 @@ async function checkLogin() {
       const res = await fetch('data.json');
       const data = await res.json();
       bigDatabase = data.list || data;
-    } catch (e) { console.error("Database error"); }
+    } catch (e) { console.error("Base Database Offline"); }
 
     startEngine();
   } else {
@@ -106,8 +100,7 @@ async function checkLogin() {
 
 function startEngine() {
   fetchLive();
-  setInterval(fetchLive, 4000);
-  setInterval(() => { if(window.currentLiveHistory) runDeepScan(window.currentLiveHistory); }, 1000);
+  setInterval(fetchLive, 3000); 
   setInterval(() => {
     let r = 30 - (new Date().getSeconds() % 30);
     document.getElementById('timer').innerText = r + "s";
@@ -119,65 +112,110 @@ async function fetchLive() {
     const res = await fetch(`${LIVE_API}?t=${Date.now()}`);
     const json = await res.json();
     if(json.data && json.data.list) {
-      const history = json.data.list;
-      window.currentLiveHistory = history;
-      updateWinLossLogic(history[0]);
+      const liveHistory = json.data.list;
+      syncDatabases(liveHistory);
+      runTrendArchitect(liveHistory);
     }
-  } catch (e) {}
+  } catch (e) { console.log("Network lag..."); }
 }
 
-function updateWinLossLogic(latestResult) {
-    const period = latestResult.issueNumber;
-    const actual = parseInt(latestResult.number) >= 5 ? "BIG" : "SMALL";
-
-    if (lastTargetPeriod === period && lastPrediction !== null) {
-        winLossHistory[period] = (lastPrediction === actual) ? "WIN" : "LOSS";
-        lastPrediction = null; 
-        lastTargetPeriod = null;
-    }
+// ২ ডাটাকে মার্জ করার লজিক
+function syncDatabases(live) {
+    const latestLivePeriod = BigInt(live[0].issueNumber);
+    // ফিল্টার আউট: data.json এর ডাটা যেগুলো লাইভ ডাটার চেয়ে পুরনো শুধু সেগুলো রাখা
+    const uniqueBase = bigDatabase.filter(item => BigInt(item.issueNumber) < BigInt(live[live.length-1].issueNumber));
+    combinedData = [...live, ...uniqueBase];
 }
 
-function runDeepScan(history) {
-  const latest = history[0];
-  const nextPeriod = (BigInt(latest.issueNumber) + 1n).toString();
-  document.getElementById('periodDisplay').innerText = nextPeriod.slice(-4);
+function runTrendArchitect(history) {
+    const latest = history[0];
+    const nextPeriod = (BigInt(latest.issueNumber) + 1n).toString();
+    document.getElementById('periodDisplay').innerText = nextPeriod.slice(-4);
 
-  const currentKey = history.slice(0, 5).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
-  let bCount = 0, sCount = 0, matchCount = 0;
-  
-  if(bigDatabase.length > 0) {
-    for (let i = 0; i < bigDatabase.length - 6; i++) {
-      let pKey = "";
-      for(let j=0; j<5; j++) {
-        pKey += parseInt(bigDatabase[i+j+1].number) >= 5 ? 'B' : 'S';
-      }
-      if(pKey === currentKey) {
-        matchCount++;
-        if(parseInt(bigDatabase[i].number) >= 5) bCount++; else sCount++;
-      }
+    // ১. উইন-লস আপডেট
+    if (lastTargetPeriod === latest.issueNumber && lastPrediction !== null) {
+        const actual = parseInt(latest.number) >= 5 ? "BIG" : "SMALL";
+        winLossHistory[latest.issueNumber] = (lastPrediction === actual) ? "WIN" : "LOSS";
     }
-  }
 
-  let pred = "WAIT";
-  let conf = 0;
-
-  if (matchCount > 0) {
-    if (bCount > sCount) { pred = "BIG"; conf = (bCount/matchCount)*100; }
-    else if (sCount > bCount) { pred = "SMALL"; conf = (sCount/matchCount)*100; }
+    // ২. প্যাটার্ন এক্সট্রাকশন (শেষ ৭টি ডাটা)
+    const pattern = history.slice(0, 7).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
+    const currentStreak = getStreak(pattern);
     
-    if (lastTargetPeriod !== nextPeriod) {
-        lastPrediction = pred;
-        lastTargetPeriod = nextPeriod;
-    }
-  }
+    let prediction = "WAIT";
+    let trendLabel = "MAZE";
+    let conf = 0;
 
-  const pDiv = document.getElementById('prediction');
-  pDiv.innerText = pred;
-  pDiv.style.color = pred === "BIG" ? "#ff9900" : (pred === "SMALL" ? "#00aaff" : "#00ffea");
-  document.getElementById('confPercent').innerText = Math.round(conf) + "%";
-  document.getElementById('matchFound').innerText = matchCount;
-  
-  renderTable(history);
+    // ৩. স্ট্রাটেজি ইমপ্লিমেন্টেশন
+    if (currentStreak >= 8) {
+        prediction = "WAIT"; // ক্ল্যাইম্যাক্স জোন
+        trendLabel = "CLIMAX 🛑";
+    } else {
+        // ৯২কে ডাটা স্ক্যান
+        let bCount = 0, sCount = 0;
+        const searchKey = pattern.slice(0, 4); // শেষ ৪টি প্যাটার্ন দিয়ে খুঁজবে
+        
+        for (let i = 0; i < combinedData.length - 5; i++) {
+            let pKey = "";
+            for(let j=0; j<4; j++) {
+                pKey += parseInt(combinedData[i+j+1].number) >= 5 ? 'B' : 'S';
+            }
+            if(pKey === searchKey) {
+                if(parseInt(combinedData[i].number) >= 5) bCount++; else sCount++;
+            }
+        }
+
+        const totalMatches = bCount + sCount;
+        if(totalMatches > 5) {
+            const bRate = (bCount/totalMatches);
+            const sRate = (sCount/totalMatches);
+            
+            // Maze শনাক্তকরণ (খুব বেশি ঝিকঝাক হলে ওয়েট)
+            if (isMaze(pattern)) {
+                prediction = "WAIT";
+                trendLabel = "MAZE ❌";
+            } else {
+                if (bRate > 0.65) { prediction = "BIG"; conf = bRate * 100; trendLabel = "RHYTHM ✅"; }
+                else if (sRate > 0.65) { prediction = "SMALL"; conf = sRate * 100; trendLabel = "RHYTHM ✅"; }
+                else { prediction = "WAIT"; trendLabel = "STABLE ⏳"; }
+            }
+        }
+    }
+
+    // ৪. ডিসপ্লে আপডেট
+    updateUI(prediction, conf, trendLabel, nextPeriod);
+    renderTable(history);
+}
+
+function getStreak(p) {
+    let count = 1;
+    for(let i=0; i<p.length-1; i++) {
+        if(p[i] === p[i+1]) count++; else break;
+    }
+    return count;
+}
+
+function isMaze(p) {
+    // Maze Patterns: bbbsb, bbbbsb, bbbsbbs ইত্যাদি শনাক্ত করে
+    const traps = ["BBBSB", "SSSBS", "BBBSBB", "SSBSSB", "BSBSB"];
+    return traps.some(t => p.includes(t));
+}
+
+function updateUI(pred, conf, trend, nextP) {
+    const pDiv = document.getElementById('prediction');
+    pDiv.innerText = pred;
+    
+    if(pred === "BIG") pDiv.style.color = "#ff9900";
+    else if(pred === "SMALL") pDiv.style.color = "#00aaff";
+    else pDiv.style.color = "#00ffea";
+
+    document.getElementById('confPercent').innerText = Math.round(conf) + "%";
+    document.getElementById('trendType').innerText = trend;
+    
+    if(pred !== "WAIT") {
+        lastPrediction = pred;
+        lastTargetPeriod = nextP;
+    }
 }
 
 function renderTable(history) {
@@ -198,3 +236,4 @@ function renderTable(history) {
 </script>
 </body>
 </html>
+
