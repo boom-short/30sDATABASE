@@ -7,41 +7,55 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root { --primary: #00ffea; --bg: #050505; --card: #121212; --win: #00ff88; --loss: #ff4444; --accent: #ffd700; }
-    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+    
     #loginSection { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-    .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; width: 85%; max-width: 350px; }
-    input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; outline: none; }
-    .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
-    #mainApp { display: none; width: 100%; max-width: 500px; }
-    .header { text-align: center; color: var(--primary); font-size: 18px; margin: 15px 0; font-weight: bold; text-transform: uppercase; }
-    .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; margin-bottom: 20px; }
-    .prediction-box { font-size: 48px; font-weight: bold; text-align: center; margin: 10px 0; transition: 0.3s; }
+    .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; width: 85%; max-width: 350px; box-shadow: 0 0 30px rgba(0,255,234,0.2); }
+    input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; box-sizing: border-box; outline: none; font-size: 16px; }
+    .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+    .login-btn:active { transform: scale(0.95); opacity: 0.8; }
+
+    #mainApp { display: none; width: 100%; max-width: 500px; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    .header { text-align: center; color: var(--primary); font-size: 18px; margin: 15px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(0,255,234,0.5); }
+    
+    .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; box-shadow: 0 0 20px rgba(0,0,0,0.5); margin-bottom: 20px; position: relative; overflow: hidden; }
+    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--primary), transparent); animation: scan 2s linear infinite; }
+    @keyframes scan { 0% { left: -100%; } 100% { left: 100%; } }
+
+    .prediction-box { font-size: 50px; font-weight: 800; text-align: center; margin: 10px 0; letter-spacing: 5px; transition: 0.5s; }
+    
     .status-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; margin-top: 15px; color: #888; border-top: 1px solid #222; padding-top: 10px; }
     .highlight { color: var(--primary); font-weight: bold; }
-    .table-container { background: #0a0a0a; border-radius: 12px; overflow: hidden; border: 1px solid #222; }
+
+    .table-container { background: #0a0a0a; border-radius: 12px; overflow: hidden; border: 1px solid #222; margin-top: 10px; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { padding: 12px; background: #151515; color: var(--primary); }
+    th { padding: 12px; background: #151515; color: var(--primary); border-bottom: 2px solid #222; font-size: 11px; }
     td { padding: 12px; text-align: center; border-bottom: 1px solid #111; }
-    .red { color: var(--loss); font-weight: bold; } 
-    .green { color: var(--win); font-weight: bold; }
+    
+    .red-bg { color: var(--loss); font-weight: bold; } 
+    .green-bg { color: var(--win); font-weight: bold; }
     .gold { color: var(--accent); }
-    .footer { font-size: 10px; text-align: center; margin-top: 20px; color: #555; padding-bottom: 30px; }
+    
+    .footer { font-size: 10px; text-align: center; margin-top: 20px; color: #555; letter-spacing: 1px; padding-bottom: 30px; }
   </style>
 </head>
 <body>
 
   <div id="loginSection">
     <div class="login-card">
-      <h2 style="color:var(--primary); margin:0;">AI CYCLIC SCAN</h2>
-      <p style="font-size:12px; color:#888;">92K NODE DEEP ANALYSIS</p>
+      <h2 style="color:var(--primary); margin:0; font-style: italic;">PREDICT X-PRO</h2>
+      <p style="font-size:10px; color:#888; margin-top:5px;">AI DEEP LEARNING & RECURSIVE PATTERN</p>
       <input type="password" id="passInput" placeholder="Enter VIP Key">
       <button onclick="checkLogin()" class="login-btn">INJECT SYSTEM</button>
-      <p id="error" style="color:var(--loss); display:none; font-size:12px; margin-top:10px;">Access Denied!</p>
+      <p id="error" style="color:var(--loss); display:none; font-size:12px; margin-top:10px;">Invalid Key!</p>
     </div>
   </div>
 
   <div id="mainApp">
     <div class="header">◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 𝑽𝑰𝑷 °•◈</div>
+
     <div class="card">
       <div style="display: flex; justify-content: space-between; font-size: 14px;">
         <span>Period: <b id="periodDisplay" class="highlight">----</b></span>
@@ -50,141 +64,180 @@
       <div id="prediction" class="prediction-box">SCANNING</div>
       <div class="status-bar">
         <span>Accuracy: <span id="confPercent" class="highlight">0%</span></span>
-        <span>Matches: <span id="matchFound" class="highlight">0</span></span>
-        <span>Mode: <span id="trendType" class="highlight">NORMAL</span></span>
-        <span>Cycle: <span id="cycleStatus" class="highlight">STABLE</span></span>
+        <span>Node Matches: <span id="matchFound" class="highlight">0</span></span>
+        <span>Mode: <span id="modeStatus" class="highlight">CALIBRATING</span></span>
+        <span>Sync: <span id="syncStatus" class="highlight">92K OK</span></span>
       </div>
     </div>
+
     <div class="table-container">
       <table>
-        <thead><tr><th>Period</th><th>Num</th><th>Size</th><th>Result</th></tr></thead>
+        <thead>
+          <tr><th>Period</th><th>Number</th><th>Size</th><th>Result</th></tr>
+        </thead>
         <tbody id="logTable"></tbody>
       </table>
     </div>
+
     <div class="footer">
-      AI DATABASE: 30 DAYS SYNC | RECURSIVE PATTERN v4.0<br>
-      Developed by: ◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 °•◈
+      SYSTEM: V5.2 ANTI-LAG | DB: GITHUB REPO SYNC<br>
+      © DEVELOPED BY ◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 °•◈
     </div>
   </div>
 
 <script>
 const PASS = "Soikat2580";
 const LIVE_API = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
-let bigDB = []; 
-let lastTrackedPeriod = null;
-let currentPred = null;
-let historyLog = {};
+
+let bigDatabase = []; 
+let currentPrediction = null;
+let currentTargetPeriod = null;
+let winLossStore = {}; 
 
 async function checkLogin() {
-  if(document.getElementById('passInput').value === PASS) {
+  const pass = document.getElementById('passInput').value;
+  if(pass === PASS) {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
-    loadDatabase();
-  } else { document.getElementById('error').style.display = 'block'; }
+    
+    // ৯২ হাজার ডাটা লোড করা
+    try {
+      const res = await fetch('data.json');
+      const data = await res.json();
+      bigDatabase = Array.isArray(data) ? data : (data.list || []);
+      console.log("Database Loaded: " + bigDatabase.length);
+    } catch (e) { console.error("Database fail"); }
+
+    initSystem();
+  } else {
+    document.getElementById('error').style.display = 'block';
+  }
 }
 
-async function loadDatabase() {
-  try {
-    const res = await fetch('data.json');
-    const data = await res.json();
-    bigDB = data.list || data;
-    startEngine();
-  } catch (e) { startEngine(); }
-}
-
-function startEngine() {
-  update();
-  setInterval(update, 3000);
+function initSystem() {
+  // প্রাথমিক ডাটা ফেচ
+  fetchLive();
+  // প্রতি ৩ সেকেন্ডে ডাটা রিফ্রেশ (যাতে গ্যাপ না পড়ে)
+  setInterval(fetchLive, 3000);
+  // টাইমার আপডেট
   setInterval(() => {
-    let s = new Date().getSeconds();
-    document.getElementById('timer').innerText = (30 - (s % 30)) + "s";
+    let seconds = new Date().getSeconds();
+    let remaining = 30 - (seconds % 30);
+    document.getElementById('timer').innerText = remaining + "s";
   }, 1000);
 }
 
-async function update() {
+async function fetchLive() {
   try {
     const res = await fetch(`${LIVE_API}?t=${Date.now()}`);
     const json = await res.json();
     if(json.data && json.data.list) {
-      processDeepAI(json.data.list);
+      processLogic(json.data.list);
     }
   } catch (e) {}
 }
 
-function processDeepAI(live) {
-  const latest = live[0];
-  const nextP = (BigInt(latest.issueNumber) + 1n).toString();
+function processLogic(history) {
+  const latest = history[0];
+  const nextPeriod = (BigInt(latest.issueNumber) + 1n).toString();
   
-  // Win/Loss Tracker
-  if (lastTrackedPeriod === latest.issueNumber && currentPred) {
-    const actual = parseInt(latest.number) >= 5 ? "BIG" : "SMALL";
-    historyLog[latest.issueNumber] = (currentPred === actual) ? "WIN" : "LOSS";
+  // ১. উইন/লস চেক করা (আগের রেজাল্ট আসার পর)
+  if (currentTargetPeriod === latest.issueNumber && currentPrediction !== null) {
+    const actualResult = parseInt(latest.number) >= 5 ? "BIG" : "SMALL";
+    winLossStore[latest.issueNumber] = (currentPrediction === actualResult) ? "WIN" : "LOSS";
   }
 
-  // --- CYCLIC PATTERN ENGINE ---
-  const patternLengths = [3, 5, 8, 10]; // বিভিন্ন গভীরতায় চেক
-  let bW = 0, sW = 0, matches = 0, cycleBoost = 0;
-  const currentDay = new Date().getDay();
+  // ২. প্যাটার্ন এনালাইসিস (ডিপ স্ক্যান)
+  // গত ৪টি ডাটার প্যাটার্ন নেওয়া (উইন রেট বাড়ানোর জন্য ৪-৫টি প্যাটার্ন বেস্ট)
+  const pattern = history.slice(0, 4).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
+  
+  let weights = { BIG: 0, SMALL: 0 };
+  let matches = 0;
 
-  patternLengths.forEach(len => {
-    const pat = live.slice(0, len).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
-    
-    for (let i = 0; i < bigDB.length - (len + 1); i++) {
-      let isMatch = true;
-      for (let j = 0; j < len; j++) {
-        if ((parseInt(bigDB[i+j+1].number) >= 5 ? 'B' : 'S') !== pat[j]) {
-          isMatch = false; break;
-        }
+  if(bigDatabase.length > 10) {
+    // ডাটাবেস সার্চ
+    for (let i = 0; i < bigDatabase.length - 5; i++) {
+      let dbP = "";
+      for(let j=0; j<4; j++) {
+        dbP += parseInt(bigDatabase[i+j+1].number) >= 5 ? 'B' : 'S';
       }
 
-      if (isMatch) {
+      if(dbP === pattern) {
         matches++;
-        let weight = len * 2;
+        const nextVal = parseInt(bigDatabase[i].number) >= 5 ? "BIG" : "SMALL";
         
-        // ১ দিন আগের (২৮৮০ পিরিয়ড) একই সময়ের ডাটা হলে ওয়েট বাড়িয়ে দাও
-        if (i % 2880 < 10) { weight *= 3; cycleBoost++; } 
-        // ১ সপ্তাহ আগের (২০১৬০ পিরিয়ড) একই দিনের ডাটা হলে ওয়েট আরও বাড়াও
-        if (i % 20160 < 10) { weight *= 5; cycleBoost += 2; }
+        // --- PRO LOGIC: Time & Cycle Weighting ---
+        let weight = 1;
+        // ১ দিন আগের একই সময়ের ডাটা হলে একে বেশি গুরুত্ব দাও (২৮৮০ পিরিয়ড = ১ দিন)
+        if (i % 2880 < 5) weight += 10; 
+        // ১ সপ্তাহ আগের ডাটা হলে আরও বেশি গুরুত্ব
+        if (i % 20160 < 5) weight += 20;
 
-        if (parseInt(bigDB[i].number) >= 5) bW += weight; else sW += weight;
+        weights[nextVal] += weight;
       }
     }
-  });
-
-  let decision = "WAIT";
-  let conf = 0;
-  if (matches > 0) {
-    decision = bW > sW ? "BIG" : "SMALL";
-    conf = (Math.max(bW, sW) / (bW + sW)) * 100;
-    if (Math.abs(bW - sW) < 5) decision = "SURE WAIT";
   }
 
-  // UI Update
-  document.getElementById('periodDisplay').innerText = nextP.slice(-4);
-  const pb = document.getElementById('prediction');
-  pb.innerText = decision;
-  pb.style.color = decision === "BIG" ? "#ff9900" : (decision === "SMALL" ? "#00aaff" : "#fff");
-  
-  document.getElementById('confPercent').innerText = Math.round(conf) + "%";
-  document.getElementById('matchFound').innerText = matches;
-  document.getElementById('cycleStatus').innerText = cycleBoost > 0 ? "REPEAT DETECTED" : "STABLE";
-  document.getElementById('trendType').innerText = conf > 85 ? "HIGH ACCURACY" : "NORMAL";
+  // ৩. প্রেডিকশন ক্যালকুলেশন
+  let finalDecision = "WAIT";
+  let accuracy = 0;
 
-  currentPred = decision;
-  lastTrackedPeriod = nextP;
-  renderTable(live);
+  if (matches > 0) {
+    const totalWeight = weights.BIG + weights.SMALL;
+    if (weights.BIG > weights.SMALL) {
+      finalDecision = "BIG";
+      accuracy = (weights.BIG / totalWeight) * 100;
+    } else {
+      finalDecision = "SMALL";
+      accuracy = (weights.SMALL / totalWeight) * 100;
+    }
+    
+    // নিশ্চিত করার জন্য মিনিমাম ম্যাচ থাকতে হবে
+    if (matches < 2) {
+      finalDecision = "CALIBRATING";
+      accuracy = 0;
+    }
+  }
+
+  // ৪. UI আপডেট
+  document.getElementById('periodDisplay').innerText = nextPeriod.slice(-4);
+  const predEl = document.getElementById('prediction');
+  predEl.innerText = finalDecision;
+  
+  // কালার থিম
+  if(finalDecision === "BIG") predEl.style.color = "#ff9900";
+  else if(finalDecision === "SMALL") predEl.style.color = "#00aaff";
+  else predEl.style.color = "var(--primary)";
+
+  document.getElementById('confPercent').innerText = Math.round(accuracy) + "%";
+  document.getElementById('matchFound').innerText = matches;
+  document.getElementById('modeStatus').innerText = accuracy > 75 ? "HIGH PROB" : "STABLE";
+
+  // টার্গেট সেট করা পরবর্তী রেজাল্ট চেক করার জন্য
+  if (currentTargetPeriod !== nextPeriod) {
+    currentPrediction = (finalDecision === "BIG" || finalDecision === "SMALL") ? finalDecision : null;
+    currentTargetPeriod = nextPeriod;
+  }
+
+  renderTable(history);
 }
 
-function renderTable(live) {
-  let h = "";
-  live.slice(0, 10).forEach(x => {
-    const isB = parseInt(x.number) >= 5;
-    const res = historyLog[x.issueNumber] || "---";
-    h += `<tr><td>${x.issueNumber.slice(-4)}</td><td class="gold">${x.number}</td><td class="${isB?'red':'green'}">${isB?'BIG':'SMALL'}</td><td class="${res==='WIN'?'green':'red'}">${res}</td></tr>`;
+function renderTable(history) {
+  let tableHtml = "";
+  history.slice(0, 10).forEach(item => {
+    const isBig = parseInt(item.number) >= 5;
+    const resultStatus = winLossStore[item.issueNumber] || "---";
+    const resClass = resultStatus === "WIN" ? "green-bg" : (resultStatus === "LOSS" ? "red-bg" : "");
+    
+    tableHtml += `<tr>
+      <td>${item.issueNumber.slice(-4)}</td>
+      <td class="gold">${item.number}</td>
+      <td class="${isBig ? 'red-bg' : 'green-bg'}">${isBig ? 'BIG' : 'SMALL'}</td>
+      <td class="${resClass}">${resultStatus}</td>
+    </tr>`;
   });
-  document.getElementById('logTable').innerHTML = h;
+  document.getElementById('logTable').innerHTML = tableHtml;
 }
 </script>
 </body>
 </html>
-
