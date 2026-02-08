@@ -7,32 +7,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root { --primary: #00ffea; --bg: #050505; --card: #121212; --win: #00ff88; --loss: #ff4444; }
-    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
-    
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
     #loginSection { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
     .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; width: 85%; max-width: 350px; }
-    input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; box-sizing: border-box; outline: none; }
+    input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; outline: none; }
     .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
-
     #mainApp { display: none; width: 100%; max-width: 500px; }
-    .header { text-align: center; color: var(--primary); font-size: 18px; margin: 15px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-    
+    .header { text-align: center; color: var(--primary); font-size: 18px; margin: 15px 0; font-weight: bold; }
     .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; box-shadow: 0 0 20px rgba(0,255,234,0.1); margin-bottom: 20px; }
-    .prediction-box { font-size: 45px; font-weight: bold; text-align: center; margin: 10px 0; text-shadow: 0 0 15px var(--primary); }
-    
+    .prediction-box { font-size: 50px; font-weight: bold; text-align: center; margin: 10px 0; transition: 0.3s; }
     .status-bar { display: flex; justify-content: space-between; font-size: 12px; margin-top: 10px; color: #888; }
     .highlight { color: var(--primary); font-weight: bold; }
-
     .table-container { background: #0a0a0a; border-radius: 12px; overflow: hidden; border: 1px solid #222; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { padding: 12px; background: #151515; color: var(--primary); border-bottom: 2px solid #222; }
+    th { padding: 12px; background: #151515; color: var(--primary); }
     td { padding: 12px; text-align: center; border-bottom: 1px solid #111; }
-    
     .red { color: var(--loss); font-weight: bold; } 
     .green { color: var(--win); font-weight: bold; }
-    .gold { color: #ffd700; }
-    
-    .footer { font-size: 10px; text-align: center; margin-top: 20px; color: #555; letter-spacing: 1px; }
   </style>
 </head>
 <body>
@@ -40,7 +31,7 @@
   <div id="loginSection">
     <div class="login-card">
       <h2 style="color:var(--primary); margin:0;">VIP ACCESS</h2>
-      <p style="font-size:12px; color:#888;">92K NODE INTEGRATED SCANNER</p>
+      <p style="font-size:12px; color:#888;">ULTRA-SYNC V5.0 ACTIVE</p>
       <input type="password" id="passInput" placeholder="Enter VIP Key">
       <button onclick="checkLogin()" class="login-btn">INJECT & START</button>
       <p id="error" style="color:var(--loss); display:none; font-size:12px; margin-top:10px;">Access Denied!</p>
@@ -49,183 +40,120 @@
 
   <div id="mainApp">
     <div class="header">◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 𝑽𝑰𝑷 °•◈</div>
-
     <div class="card">
       <div style="display: flex; justify-content: space-between; font-size: 14px;">
-        <span>Next Period: <b id="periodDisplay" class="highlight">----</b></span>
-        <span>Refresh: <b id="timer" style="color:#fff;">30s</b></span>
+        <span>Period: <b id="periodDisplay" class="highlight">----</b></span>
+        <span>Refresh: <b id="timer" style="color:#fff;">--s</b></span>
       </div>
       <div id="prediction" class="prediction-box">SCANNING</div>
       <div class="status-bar">
         <span>Conf: <span id="confPercent" class="highlight">0%</span></span>
-        <span>Trend: <span id="trendType" class="highlight">FETCHING</span></span>
+        <span>Trend: <span id="trendType" class="highlight">SYNCING</span></span>
       </div>
     </div>
-
     <div class="table-container">
       <table>
-        <thead>
-          <tr><th>Period</th><th>Num</th><th>Size</th><th>Result</th></tr>
-        </thead>
+        <thead><tr><th>Period</th><th>Num</th><th>Size</th><th>Result</th></tr></thead>
         <tbody id="logTable"></tbody>
       </table>
-    </div>
-
-    <div class="footer">
-      AI SCANNER: ACTIVE | INTEGRATED DATA SYNC<br>
-      Developed by: ◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 °•◈
     </div>
   </div>
 
 <script>
 const PASS = "Soikat2580";
 const LIVE_API = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
-
-let baseDatabase = []; 
-let masterData = [];
-let lastPrediction = null;
-let lastTargetPeriod = null;
-let winLossHistory = {};
+let bigDB = []; let lastPred = null; let lastPeriod = null; let wlHistory = {};
 
 async function checkLogin() {
-  const pass = document.getElementById('passInput').value;
-  if(pass === PASS) {
+  if(document.getElementById('passInput').value === PASS) {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
-    
     try {
       const res = await fetch('data.json');
       const data = await res.json();
-      baseDatabase = data.list || data;
-    } catch (e) { console.log("Local DB Offline, using Live only."); }
-
+      bigDB = data.list || data;
+    } catch (e) { console.log("DB Load Error"); }
     startEngine();
-  } else {
-    document.getElementById('error').style.display = 'block';
-  }
+  } else { document.getElementById('error').style.display = 'block'; }
 }
 
 function startEngine() {
-  fetchLive();
-  setInterval(fetchLive, 3000); // প্রতি ৩ সেকেন্ডে ডাটা রিফ্রেশ
+  fetchData(); setInterval(fetchData, 3000);
   setInterval(() => {
     let r = 30 - (new Date().getSeconds() % 30);
     document.getElementById('timer').innerText = r + "s";
   }, 1000);
 }
 
-async function fetchLive() {
+async function fetchData() {
   try {
     const res = await fetch(`${LIVE_API}?t=${Date.now()}`);
     const json = await res.json();
     if(json.data && json.data.list) {
-      const liveHistory = json.data.list;
-      
-      // স্মার্ট সিঙ্ক: লাইভ এবং ডাটাবেজ এক করা
-      const liveIds = new Set(liveHistory.map(i => i.issueNumber));
-      const filteredBase = baseDatabase.filter(i => !liveIds.has(i.issueNumber));
-      masterData = [...liveHistory, ...filteredBase];
-
-      runArchitecture(liveHistory);
+      const live = json.data.list;
+      updateWL(live[0]);
+      analyze(live);
     }
   } catch (e) {}
 }
 
-function runArchitecture(history) {
-    const latest = history[0];
-    const nextPeriod = (BigInt(latest.issueNumber) + 1n).toString();
-    document.getElementById('periodDisplay').innerText = nextPeriod.slice(-4);
-
-    // ১. উইন-লস আপডেট লজিক
-    if (lastTargetPeriod === latest.issueNumber && lastPrediction !== null) {
-        const actual = parseInt(latest.number) >= 5 ? "BIG" : "SMALL";
-        winLossHistory[latest.issueNumber] = (lastPrediction === actual) ? "WIN" : "LOSS";
-        lastPrediction = null;
-        lastTargetPeriod = null;
-    }
-
-    // ২. প্যাটার্ন এক্সট্রাকশন (শেষ ৫টি)
-    const currentKey = history.slice(0, 5).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
-    const fullPattern = history.slice(0, 8).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
-
-    let bCount = 0, sCount = 0, matchCount = 0;
-    
-    // ৩. মাস্টার ডাটাবেজ স্ক্যান
-    for (let i = 0; i < masterData.length - 6; i++) {
-      let pKey = "";
-      for(let j=0; j<5; j++) {
-        pKey += parseInt(masterData[i+j+1].number) >= 5 ? 'B' : 'S';
-      }
-      if(pKey === currentKey) {
-        matchCount++;
-        if(parseInt(masterData[i].number) >= 5) bCount++; else sCount++;
-      }
-    }
-
-    // ৪. ট্রপ ও গোলকধাঁধা শনাক্তকরণ (The Maze)
-    const mazePatterns = ["BBBSB", "SSSBS", "BBBSB", "SSBSS", "BBSBBS", "BSBSBS"];
-    const isMaze = mazePatterns.some(p => fullPattern.includes(p));
-    const isStreak = /(.)\1{7,}/.test(fullPattern); // ৮ বার বা তার বেশি একই ট্রেন্ড
-
-    let pred = "WAIT";
-    let conf = 0;
-    let trendLabel = "STABLE";
-
-    if (isStreak) {
-        pred = "WAIT";
-        trendLabel = "CLIMAX 🛑";
-    } else if (isMaze) {
-        pred = "WAIT";
-        trendLabel = "MAZE ❌";
-    } else if (matchCount > 0) {
-        const bRate = bCount / matchCount;
-        const sRate = sCount / matchCount;
-
-        if (bRate > 0.70) { 
-            pred = "BIG"; 
-            conf = bRate * 100; 
-            trendLabel = "RHYTHM ✅"; 
-        } else if (sRate > 0.70) { 
-            pred = "SMALL"; 
-            conf = sRate * 100; 
-            trendLabel = "RHYTHM ✅"; 
-        } else {
-            pred = "WAIT";
-            trendLabel = "UNCERTAIN";
-        }
-    }
-
-    // ৫. ফলাফল প্রদর্শন
-    const pDiv = document.getElementById('prediction');
-    pDiv.innerText = pred;
-    pDiv.style.color = pred === "BIG" ? "#ff9900" : (pred === "SMALL" ? "#00aaff" : "#00ffea");
-    
-    document.getElementById('confPercent').innerText = Math.round(conf) + "%";
-    document.getElementById('trendType').innerText = trendLabel;
-
-    if (pred !== "WAIT") {
-        lastPrediction = pred;
-        lastTargetPeriod = nextPeriod;
-    }
-    
-    renderTable(history);
+function updateWL(latest) {
+  if (lastPeriod === latest.issueNumber && lastPred) {
+    const act = parseInt(latest.number) >= 5 ? "BIG" : "SMALL";
+    wlHistory[latest.issueNumber] = (lastPred === act) ? "WIN" : "LOSS";
+  }
 }
 
-function renderTable(history) {
-  let html = "";
-  history.slice(0, 10).forEach(item => {
-    const isB = parseInt(item.number) >= 5;
-    const status = winLossHistory[item.issueNumber] || "---";
-    const statusClass = status === "WIN" ? "green" : (status === "LOSS" ? "red" : "");
-    html += `<tr>
-      <td>${item.issueNumber.slice(-4)}</td>
-      <td class="gold">${item.number}</td>
-      <td class="${isB ? 'red' : 'green'}">${isB ? 'BIG' : 'SMALL'}</td>
-      <td class="${statusClass}">${status}</td>
-    </tr>`;
+function analyze(live) {
+  const latest = live[0];
+  const nextP = (BigInt(latest.issueNumber) + 1n).toString();
+  document.getElementById('periodDisplay').innerText = nextP.slice(-4);
+
+  // লাইভ ডাটা ও DB মিলাচ্ছি (বেশি রেজাল্ট পাওয়ার জন্য প্যাটার্ন ছোট করা হয়েছে)
+  const key = live.slice(0, 3).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
+  let bc = 0, sc = 0, mtch = 0;
+
+  if(bigDB.length > 0) {
+    for (let i = 0; i < bigDB.length - 4; i++) {
+      let pKey = (parseInt(bigDB[i+1].number) >= 5 ? 'B' : 'S') + (parseInt(bigDB[i+2].number) >= 5 ? 'B' : 'S') + (parseInt(bigDB[i+3].number) >= 5 ? 'B' : 'S');
+      if(pKey === key) { mtch++; if(parseInt(bigDB[i].number) >= 5) bc++; else sc++; }
+    }
+  }
+
+  let pred = "WAIT"; let conf = 0; let trend = "RANDOM";
+  
+  if (mtch > 0) {
+    const bp = (bc/mtch)*100; const sp = (sc/mtch)*100;
+    // কনফিডেন্স কমানো হয়েছে যাতে ঘনঘন সিগন্যাল দেয়
+    if (bp > 55) { pred = "BIG"; conf = bp; trend = "B-TREND"; }
+    else if (sp > 55) { pred = "SMALL"; conf = sp; trend = "S-TREND"; }
+  } else {
+    // DB না মিললে লাইভ লজিক
+    const last3 = live.slice(0,3).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
+    if(last3 === "BBB") { pred = "SMALL"; conf = 60; trend = "BREAK"; }
+    else if(last3 === "SSS") { pred = "BIG"; conf = 60; trend = "BREAK"; }
+  }
+
+  const pBox = document.getElementById('prediction');
+  pBox.innerText = pred;
+  pBox.style.color = pred === "BIG" ? "#ff9900" : (pred === "SMALL" ? "#00aaff" : "#00ffea");
+  document.getElementById('confPercent').innerText = Math.round(conf) + "%";
+  document.getElementById('trendType').innerText = trend;
+
+  if(pred !== "WAIT") { lastPred = pred; lastPeriod = nextP; }
+  renderTable(live);
+}
+
+function renderTable(live) {
+  let h = "";
+  live.slice(0, 10).forEach(i => {
+    const isB = parseInt(i.number) >= 5;
+    const res = wlHistory[i.issueNumber] || "---";
+    h += `<tr><td>${i.issueNumber.slice(-4)}</td><td style="color:#ffd700">${i.number}</td><td class="${isB ? 'red' : 'green'}">${isB ? 'BIG' : 'SMALL'}</td><td class="${res === 'WIN' ? 'green' : 'red'}">${res}</td></tr>`;
   });
-  document.getElementById('logTable').innerHTML = html;
+  document.getElementById('logTable').innerHTML = h;
 }
 </script>
 </body>
-</html>
+      </html>
+      
