@@ -1,275 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 - PRO AI °•◈</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-color: #00ffea;
-      --background: #000;
-      --card-bg: #111;
-      --text-gray: #aaa;
-      --gold: #FFD700;
-    }
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: var(--background);
-      color: #fff;
-      margin: 0; padding: 0;
-      display: flex; flex-direction: column;
-    }
-
-    /* LOGIN SECTION */
-    #loginSection {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle, rgba(0,255,234,0.1) 0%, rgba(0,0,0,1) 70%);
-      display: flex; justify-content: center; align-items: center; z-index: 1000;
-    }
-    .login-card {
-      background: var(--card-bg);
-      border: 2px solid var(--primary-color);
-      padding: 30px; border-radius: 15px; text-align: center; width: 85%; max-width: 350px;
-    }
-    .login-input {
-      width: 100%; padding: 12px; background: #000; border: 1px solid #333;
-      color: #fff; border-radius: 8px; margin-bottom: 15px; text-align: center; box-sizing: border-box;
-    }
-    .login-btn {
-      width: 100%; padding: 12px; background: var(--primary-color);
-      color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
-    }
-
-    /* MAIN APP */
-    #mainApp { display: none; padding: 10px; }
-    .header { font-size: 20px; font-weight: bold; color: var(--primary-color); text-align: center; margin: 15px 0; text-transform: uppercase; }
-    
-    .card {
-      background: var(--card-bg);
-      border: 2px solid var(--primary-color);
-      border-radius: 12px; padding: 15px; margin-bottom: 15px;
-    }
-
-    .prediction-box {
-      background: rgba(0, 255, 234, 0.05);
-      border: 2px solid var(--primary-color);
-      border-radius: 10px; padding: 20px; text-align: center;
-      font-size: 24px; font-weight: bold; color: var(--primary-color); margin: 10px 0;
-    }
-
-    .status-badge {
-      font-size: 11px; padding: 4px 8px; border-radius: 4px;
-      background: #222; color: var(--gold); display: inline-block; margin-bottom: 10px;
-    }
-
-    .confidence-bar {
-      width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin: 10px 0;
-    }
-    .confidence-fill { height: 100%; background: var(--primary-color); width: 0%; transition: width 1s; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
-    th { color: var(--primary-color); border-bottom: 1px solid #333; padding: 8px; }
-    td { padding: 8px; text-align: center; border-bottom: 1px solid #222; }
-
-    #bigDataStatus { color: var(--gold); text-align: center; font-size: 11px; margin-top: 10px; padding-bottom: 20px;}
-    .win-text { color: lime; font-weight: bold; }
-    .loss-text { color: red; font-weight: bold; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 - 30S AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #00ffea; --bg: #000; --card: #111; --gold: #FFD700; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; overflow-x: hidden; }
+        #loginScreen { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; z-index: 10000; }
+        .login-card { width: 85%; max-width: 320px; text-align: center; border: 2px solid var(--primary); padding: 25px; border-radius: 20px; background: var(--card); }
+        .main-app { display: none; padding: 15px; }
+        .header { text-align: center; color: var(--primary); font-size: 22px; font-weight: bold; margin: 15px 0; text-transform: uppercase; }
+        .stat-badge { font-size: 11px; padding: 4px 10px; border-radius: 50px; background: #222; color: var(--gold); border: 1px solid #333; display: inline-block; margin-bottom: 10px; }
+        .pred-card { background: var(--card); border: 2px solid var(--primary); border-radius: 15px; padding: 20px; text-align: center; position: relative; }
+        .issue-text { font-size: 14px; color: #aaa; }
+        .ai-result { font-size: 45px; font-weight: bold; color: var(--primary); margin: 10px 0; text-shadow: 0 0 15px var(--primary); }
+        .conf-box { margin-top: 15px; text-align: left; }
+        .conf-bar { height: 8px; background: #222; border-radius: 10px; overflow: hidden; margin-top: 5px; border: 1px solid #333; }
+        .conf-fill { height: 100%; background: var(--primary); width: 0%; transition: width 1.5s ease-in-out; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 13px; }
+        th { border-bottom: 2px solid #333; padding: 10px; color: var(--primary); }
+        td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #222; }
+        input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; }
+        button { width: 100%; padding: 12px; background: var(--primary); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .win { color: #00ff88; font-weight: bold; }
+        .loss { color: #ff4444; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-  <div id="loginSection">
+<div id="loginScreen">
     <div class="login-card">
-      <div class="header">𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊</div>
-      <input type="password" id="passInput" class="login-input" placeholder="Enter Password">
-      <button onclick="checkLogin()" class="login-btn">LOGIN TO SERVER</button>
-      <p id="errorMsg" style="color:red; display:none; font-size:12px; margin-top:10px;">Access Denied!</p>
+        <div class="header">𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊</div>
+        <input type="password" id="pKey" placeholder="Enter Secret Key">
+        <button onclick="access()">Verify & Access</button>
+        <p id="errMsg" style="color:red; font-size:12px; display:none; margin-top:10px;">Invalid Password!</p>
     </div>
-  </div>
+</div>
 
-  <div id="mainApp">
-    <div class="header">◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 °•◈</div>
+<div class="main-app" id="app">
+    <div class="header">◈•° AI PREDICTOR PRO °•◈</div>
     
-    <div class="card">
-      <div style="text-align:center">
-        <span class="status-badge" id="dbStatus">DB: Syncing...</span>
-        <div style="font-size: 14px; color: var(--text-gray);">Next Period: <span id="nextPeriod" style="color:#fff">--</span></div>
-      </div>
-      
-      <div id="predictionBox" class="prediction-box">CONNECTING...</div>
-      
-      <div style="font-size:11px; display:flex; justify-content:space-between; margin-top:5px;">
-        <span>AI Confidence Score</span>
-        <span id="confVal">0%</span>
-      </div>
-      <div class="confidence-bar"><div id="confFill" class="confidence-fill"></div></div>
-      <div id="patternLog" style="font-size:10px; color:var(--text-gray); text-align:center;">Scanning Database History...</div>
+    <div class="pred-card">
+        <div id="dbIndicator" class="stat-badge">DB Status: Syncing...</div>
+        <div class="issue-text">Target Period: <span id="targetIssue" style="color:#fff">---</span></div>
+        <div id="aiPrediction" class="ai-result">ANALYZING</div>
+        
+        <div class="conf-box">
+            <div style="display:flex; justify-content:space-between; font-size:12px;">
+                <span>AI Probability</span>
+                <span id="confNum">0%</span>
+            </div>
+            <div class="conf-bar"><div id="confFill" class="conf-fill"></div></div>
+        </div>
     </div>
 
-    <div class="card" style="padding:0; overflow:hidden;">
-      <table id="historyTable">
-        <thead><tr><th>Period</th><th>AI Bet</th><th>Result</th><th>Status</th></tr></thead>
-        <tbody id="historyBody"></tbody>
-      </table>
-    </div>
-
-    <div id="bigDataStatus">Developed by: Joy Bahi | Big Data Engine v2.0</div>
-  </div>
+    <table>
+        <thead><tr><th>Period</th><th>Side</th><th>Actual</th><th>Result</th></tr></thead>
+        <tbody id="logBody"></tbody>
+    </table>
+    
+    <div style="text-align:center; color:var(--gold); font-size:10px; margin-top:20px;">Powered by Joy Bahi | 92K Dataset Active</div>
+</div>
 
 <script>
-// --- CONFIGURATION (এখানে আপনার GitHub লিঙ্ক বসিয়ে দিয়েছি) ---
-const LIVE_API = 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json';
-// আপনার ফাইল নেম 'data.json' অনুযায়ী লিঙ্কটি এখানে দিন (আমি উদাহরণ হিসেবে একটি ফরম্যাট রেখেছি)
-const GITHUB_DB_URL = 'https://raw.githubusercontent.com/Soikat5262/database/main/data.json'; 
+// --- CORRECTED GITHUB CONFIG ---
+const DB_URL = 'https://raw.githubusercontent.com/boom-short/30sDATABASE/main/data.json'; 
+const API_URL = 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json';
 
-let appState = {
-  dbRecords: [],
-  liveHistory: [],
-  logs: [],
-  lastIssue: null,
-  activeBet: null,
-  isFetching: false
+let state = {
+    database: [],
+    lastProcessed: null,
+    pendingBet: null,
+    logs: [],
+    syncing: false
 };
 
-// --- LOGIN ---
-function checkLogin() {
-  const p = document.getElementById('passInput').value;
-  if (p === '@Soikat5262') {
-    document.getElementById('loginSection').style.display = 'none';
-    document.getElementById('mainApp').style.display = 'block';
-    initializeApp();
-  } else {
-    document.getElementById('errorMsg').style.display = 'block';
-  }
-}
-
-// --- APP CORE ---
-async function initializeApp() {
-  await fetchDatabase();
-  setInterval(fetchDatabase, 60000); // প্রতি ১ মিনিটে ডাটাবেজ আপডেট
-  mainLoop();
-  setInterval(mainLoop, 2000); // ২ সেকেন্ড পরপর লাইভ চেক
-}
-
-async function fetchDatabase() {
-  const badge = document.getElementById('dbStatus');
-  try {
-    // Cache busting যোগ করা হয়েছে যাতে নতুন ডাটা দ্রুত পায়
-    const response = await fetch(GITHUB_DB_URL + '?nocache=' + Date.now());
-    const data = await response.json();
-    if (data && data.length > 0) {
-      appState.dbRecords = data;
-      badge.innerText = `DB: ${data.length} Records Active`;
-      badge.style.color = "lime";
+function access() {
+    if(document.getElementById('pKey').value === '@Soikat5262') {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        run();
     } else {
-      throw new Error("Empty DB");
+        document.getElementById('errMsg').style.display = 'block';
     }
-  } catch (e) {
-    badge.innerText = "DB: Offline / Empty";
-    badge.style.color = "red";
-    appState.dbRecords = [];
-  }
 }
 
-async function mainLoop() {
-  if (appState.isFetching) return;
-  appState.isFetching = true;
-  
-  try {
-    const res = await fetch(LIVE_API + '?t=' + Date.now());
-    const json = await res.json();
-    if (json.code === 0 && json.data.list) {
-      processData(json.data.list);
-    }
-  } catch (e) { console.error("API Link Error"); }
-  finally { appState.isFetching = false; }
+async function run() {
+    await syncDatabase();
+    setInterval(syncDatabase, 45000); // 45 sec DB refresh
+    worker();
+    setInterval(worker, 2000); // 2 sec API check
 }
 
-function processData(liveList) {
-  const latest = liveList[0];
-  const currentIssue = latest.issueNumber;
-
-  if (currentIssue !== appState.lastIssue) {
-    // স্মার্ট সিঙ্ক্রোনাইজেশন: ২-৫ ডাটা গ্যাপ থাকলে পূরণ করবে
-    appState.liveHistory = [...liveList, ...appState.liveHistory]
-      .filter((v, i, a) => a.findIndex(t => t.issueNumber === v.issueNumber) === i)
-      .slice(0, 50);
-
-    // পূর্বের প্রেডিকশন চেক
-    checkWinLoss(latest);
-
-    // প্রেডিকশন লজিক (শুধুমাত্র ডাটাবেজে ডাটা থাকলে)
-    if (appState.dbRecords.length > 0) {
-      const nextIssue = String(BigInt(currentIssue) + 1n);
-      const prediction = runBigDataAnalysis(liveList);
-      
-      appState.activeBet = { issue: nextIssue, type: prediction.type };
-      
-      // UI Update
-      document.getElementById('nextPeriod').innerText = nextIssue;
-      document.getElementById('predictionBox').innerText = `🎯 ${prediction.type}`;
-      document.getElementById('confVal').innerText = prediction.conf + "%";
-      document.getElementById('confFill').style.width = prediction.conf + "%";
-      document.getElementById('patternLog').innerText = `Matches Found: ${prediction.matches} in Big Data`;
-    } else {
-      document.getElementById('predictionBox').innerText = "WAITING FOR DB...";
+async function syncDatabase() {
+    const indicator = document.getElementById('dbIndicator');
+    try {
+        const r = await fetch(DB_URL + '?v=' + Date.now());
+        const data = await r.json();
+        if(data && Array.isArray(data)) {
+            state.database = data;
+            indicator.innerText = `DB: ${data.length} Records (Synced)`;
+            indicator.style.color = "lime";
+        }
+    } catch (e) {
+        indicator.innerText = "DB: Offline / Path Error";
+        indicator.style.color = "red";
     }
+}
+
+async function worker() {
+    if(state.syncing) return;
+    state.syncing = true;
+    try {
+        const r = await fetch(API_URL + '?t=' + Date.now());
+        const json = await r.json();
+        if(json.code === 0) analyze(json.data.list);
+    } catch (e) { console.log("Network Busy"); }
+    finally { state.syncing = false; }
+}
+
+function analyze(liveList) {
+    const latest = liveList[0];
+    const currentId = latest.issueNumber;
+
+    if (currentId !== state.lastProcessed) {
+        // Result calculation for previous bet
+        if(state.pendingBet && state.pendingBet.issue === currentId) {
+            const actual = parseInt(latest.number) >= 5 ? 'BIG' : 'SMALL';
+            const isWin = state.pendingBet.side === actual;
+            state.logs.unshift({
+                issue: currentId,
+                side: state.pendingBet.side,
+                actual: actual,
+                res: isWin ? 'WIN' : 'LOSS'
+            });
+        }
+
+        // Deep Analysis from 92K Data
+        if(state.database.length > 0) {
+            const nextP = String(BigInt(currentId) + 1n);
+            const decision = getDeepMatch(liveList);
+            
+            state.pendingBet = { issue: nextP, side: decision.side };
+            
+            document.getElementById('targetIssue').innerText = nextP;
+            document.getElementById('aiPrediction').innerText = decision.side;
+            document.getElementById('confNum').innerText = decision.conf + "%";
+            document.getElementById('confFill').style.width = decision.conf + "%";
+        }
+
+        state.lastProcessed = currentId;
+        updateTable();
+    }
+}
+
+function getDeepMatch(live) {
+    // বর্তমানের ৩টি প্যাটার্ন (আপনার ডেটা ফরম্যাট অনুযায়ী)
+    const pattern = live.slice(0, 3).map(v => parseInt(v.number) >= 5 ? 'B' : 'S').join('');
     
-    appState.lastIssue = currentIssue;
-    updateUIHistory();
-  }
-}
+    let bCount = 0, sCount = 0, matches = 0;
+    const searchDepth = Math.min(state.database.length, 30000);
 
-function runBigDataAnalysis(live) {
-  // বর্তমানের শেষ ৩টি রেজাল্ট প্যাটার্ন তৈরি
-  const currentPattern = live.slice(0, 3).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
-  
-  let bScore = 0, sScore = 0, matches = 0;
-
-  // ৯২ হাজার ডাটার মধ্যে এই প্যাটার্ন খোঁজা (ব্রাউজার ফ্রেন্ডলি লিমিট)
-  const limit = Math.min(appState.dbRecords.length, 30000);
-  
-  for (let i = 0; i < limit - 5; i++) {
-    // ডাটাবেজের ফরম্যাট অনুযায়ী (ধরা হয়েছে টাইপ ফিল্ড আছে)
-    const histPattern = appState.dbRecords[i+1].type + appState.dbRecords[i+2].type + appState.dbRecords[i+3].type;
-    if (histPattern === currentPattern) {
-      matches++;
-      appState.dbRecords[i].type === 'B' ? bScore++ : sScore++;
+    for (let i = 0; i < searchDepth - 4; i++) {
+        // ডেটাবেজ থেকে প্যাটার্ন ম্যাচিং (আপনার JSON Key: 'number')
+        const d1 = parseInt(state.database[i+1].number) >= 5 ? 'B' : 'S';
+        const d2 = parseInt(state.database[i+2].number) >= 5 ? 'B' : 'S';
+        const d3 = parseInt(state.database[i+3].number) >= 5 ? 'B' : 'S';
+        
+        if (d1+d2+d3 === pattern) {
+            matches++;
+            const next = parseInt(state.database[i].number) >= 5 ? 'B' : 'S';
+            next === 'B' ? bCount++ : sCount++;
+        }
     }
-  }
 
-  const finalResult = bScore > sScore ? 'BIG' : 'SMALL';
-  let confidence = matches > 0 ? Math.round((Math.max(bScore, sScore) / matches) * 100) : 55;
-
-  return { type: finalResult, conf: Math.min(confidence, 98), matches };
-}
-
-function checkWinLoss(latest) {
-  if (appState.activeBet && appState.activeBet.issue === latest.issueNumber) {
-    const actual = parseInt(latest.number) >= 5 ? 'BIG' : 'SMALL';
-    const isWin = appState.activeBet.type === actual;
+    const side = bCount > sCount ? 'BIG' : 'SMALL';
+    const conf = matches > 0 ? Math.round((Math.max(bCount, sCount) / matches) * 100) : 55;
     
-    appState.logs.unshift({
-      issue: appState.activeBet.issue,
-      bet: appState.activeBet.type,
-      actual: actual,
-      isWin: isWin
-    });
-  }
+    return { side, conf: Math.min(conf, 98) };
 }
 
-function updateUIHistory() {
-  const body = document.getElementById('historyBody');
-  body.innerHTML = appState.logs.slice(0, 8).map(l => `
-    <tr>
-      <td>${l.issue.slice(-4)}</td>
-      <td style="color:${l.bet==='BIG'?'#ff9900':'#00aaff'}">${l.bet}</td>
-      <td>${l.actual}</td>
-      <td><span class="${l.isWin?'win-text':'loss-text'}">${l.isWin?'WIN':'LOSS'}</span></td>
-    </tr>
-  `).join('');
+function updateTable() {
+    const body = document.getElementById('logBody');
+    body.innerHTML = state.logs.slice(0, 8).map(l => `
+        <tr>
+            <td>${l.issue.slice(-4)}</td>
+            <td style="color:${l.side==='BIG'?'#ff9900':'#00aaff'}">${l.side}</td>
+            <td>${l.actual}</td>
+            <td class="${l.res==='WIN'?'win':'loss'}">${l.res}</td>
+        </tr>
+    `).join('');
 }
 </script>
 </body>
 </html>
+
