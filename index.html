@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 - AI PRO °•◈</title>
+  <title>◈•° 𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊 - PRO AI °•◈</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -11,59 +11,34 @@
       --background: #000;
       --card-bg: #111;
       --text-gray: #aaa;
-      --error-color: #ff3333;
       --gold: #FFD700;
     }
     body {
       font-family: 'Outfit', sans-serif;
       background: var(--background);
       color: #fff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
+      margin: 0; padding: 0;
+      display: flex; flex-direction: column;
     }
 
     /* LOGIN SECTION */
     #loginSection {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: radial-gradient(circle, rgba(0,255,234,0.1) 0%, rgba(0,0,0,1) 70%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
+      display: flex; justify-content: center; align-items: center; z-index: 1000;
     }
     .login-card {
       background: var(--card-bg);
       border: 2px solid var(--primary-color);
-      padding: 30px;
-      border-radius: 15px;
-      text-align: center;
-      width: 85%;
-      max-width: 350px;
+      padding: 30px; border-radius: 15px; text-align: center; width: 85%; max-width: 350px;
     }
     .login-input {
-      width: 100%;
-      padding: 12px;
-      background: #000;
-      border: 1px solid #333;
-      color: #fff;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      text-align: center;
-      box-sizing: border-box;
+      width: 100%; padding: 12px; background: #000; border: 1px solid #333;
+      color: #fff; border-radius: 8px; margin-bottom: 15px; text-align: center; box-sizing: border-box;
     }
     .login-btn {
-      width: 100%;
-      padding: 12px;
-      background: var(--primary-color);
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
+      width: 100%; padding: 12px; background: var(--primary-color);
+      color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
     }
 
     /* MAIN APP */
@@ -73,48 +48,33 @@
     .card {
       background: var(--card-bg);
       border: 2px solid var(--primary-color);
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 15px;
+      border-radius: 12px; padding: 15px; margin-bottom: 15px;
     }
 
     .prediction-box {
       background: rgba(0, 255, 234, 0.05);
       border: 2px solid var(--primary-color);
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      color: var(--primary-color);
-      margin: 10px 0;
+      border-radius: 10px; padding: 20px; text-align: center;
+      font-size: 24px; font-weight: bold; color: var(--primary-color); margin: 10px 0;
     }
 
     .status-badge {
-      font-size: 12px;
-      padding: 4px 8px;
-      border-radius: 4px;
-      background: #222;
-      color: var(--gold);
-      display: inline-block;
-      margin-bottom: 10px;
+      font-size: 11px; padding: 4px 8px; border-radius: 4px;
+      background: #222; color: var(--gold); display: inline-block; margin-bottom: 10px;
     }
 
     .confidence-bar {
-      width: 100%; height: 10px; background: #222; border-radius: 5px; overflow: hidden; margin: 10px 0;
+      width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin: 10px 0;
     }
     .confidence-fill { height: 100%; background: var(--primary-color); width: 0%; transition: width 1s; }
 
-    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
-    .stat-item { background: #151515; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align: center; }
-    .stat-val { font-size: 18px; font-weight: bold; color: var(--primary-color); }
-
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { color: var(--primary-color); border-bottom: 1px solid #333; padding: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+    th { color: var(--primary-color); border-bottom: 1px solid #333; padding: 8px; }
     td { padding: 8px; text-align: center; border-bottom: 1px solid #222; }
 
-    #bigDataStatus { color: var(--gold); text-align: center; font-size: 12px; margin-top: 10px; }
-    .red { color: #ff4444; } .green { color: #00ff88; } .violet { color: #ee82ee; }
+    #bigDataStatus { color: var(--gold); text-align: center; font-size: 11px; margin-top: 10px; padding-bottom: 20px;}
+    .win-text { color: lime; font-weight: bold; }
+    .loss-text { color: red; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -122,9 +82,9 @@
   <div id="loginSection">
     <div class="login-card">
       <div class="header">𝑲𝒊𝒏𝒈 𝑺𝒐𝒊𝒌𝒂𝒕 𝑩𝒂𝒉𝒊</div>
-      <input type="password" id="pass" class="login-input" placeholder="Enter Password">
-      <button onclick="checkLogin()" class="login-btn">UNLOCK AI</button>
-      <p id="err" style="color:red; display:none; font-size:12px; margin-top:10px;">Incorrect Password!</p>
+      <input type="password" id="passInput" class="login-input" placeholder="Enter Password">
+      <button onclick="checkLogin()" class="login-btn">LOGIN TO SERVER</button>
+      <p id="errorMsg" style="color:red; display:none; font-size:12px; margin-top:10px;">Access Denied!</p>
     </div>
   </div>
 
@@ -133,180 +93,180 @@
     
     <div class="card">
       <div style="text-align:center">
-        <span class="status-badge" id="dbIndicator">Database: Checking...</span>
+        <span class="status-badge" id="dbStatus">DB: Syncing...</span>
         <div style="font-size: 14px; color: var(--text-gray);">Next Period: <span id="nextPeriod" style="color:#fff">--</span></div>
       </div>
       
-      <div id="predictionBox" class="prediction-box">INITIALIZING...</div>
+      <div id="predictionBox" class="prediction-box">CONNECTING...</div>
       
-      <div style="font-size:12px; display:flex; justify-content:space-between;">
-        <span>AI Confidence</span>
-        <span id="confLabel">0%</span>
+      <div style="font-size:11px; display:flex; justify-content:space-between; margin-top:5px;">
+        <span>AI Confidence Score</span>
+        <span id="confVal">0%</span>
       </div>
       <div class="confidence-bar"><div id="confFill" class="confidence-fill"></div></div>
-      <div id="patternText" style="font-size:11px; color:var(--text-gray); text-align:center;">Analyzing Global Patterns...</div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="stat-item"><div>Accuracy</div><div class="stat-val" id="acc">0%</div></div>
-      <div class="stat-item"><div>Win Streak</div><div class="stat-val" id="streak">0</div></div>
+      <div id="patternLog" style="font-size:10px; color:var(--text-gray); text-align:center;">Scanning Database History...</div>
     </div>
 
     <div class="card" style="padding:0; overflow:hidden;">
-      <table id="resTable">
-        <thead><tr><th>Period</th><th>Prediction</th><th>Result</th><th>Status</th></tr></thead>
-        <tbody id="resBody"></tbody>
+      <table id="historyTable">
+        <thead><tr><th>Period</th><th>AI Bet</th><th>Result</th><th>Status</th></tr></thead>
+        <tbody id="historyBody"></tbody>
       </table>
     </div>
 
-    <div id="bigDataStatus">Developed by: Joy Bahi | Big Data Active</div>
+    <div id="bigDataStatus">Developed by: Joy Bahi | Big Data Engine v2.0</div>
   </div>
 
 <script>
-// --- CONFIG & STATE ---
+// --- CONFIGURATION (এখানে আপনার GitHub লিঙ্ক বসিয়ে দিয়েছি) ---
 const LIVE_API = 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json';
-const GITHUB_DB = 'https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/data.json'; // আপনার লিঙ্কে পরিবর্তন করুন
+// আপনার ফাইল নেম 'data.json' অনুযায়ী লিঙ্কটি এখানে দিন (আমি উদাহরণ হিসেবে একটি ফরম্যাট রেখেছি)
+const GITHUB_DB_URL = 'https://raw.githubusercontent.com/Soikat5262/database/main/data.json'; 
 
-let state = {
-  db: [],
-  history: [],
-  predictions: [],
+let appState = {
+  dbRecords: [],
+  liveHistory: [],
+  logs: [],
   lastIssue: null,
-  stats: { w: 0, l: 0, s: 0 }
+  activeBet: null,
+  isFetching: false
 };
 
 // --- LOGIN ---
 function checkLogin() {
-  if (document.getElementById('pass').value === '@Soikat5262') {
+  const p = document.getElementById('passInput').value;
+  if (p === '@Soikat5262') {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
-    startApp();
+    initializeApp();
   } else {
-    document.getElementById('err').style.display = 'block';
+    document.getElementById('errorMsg').style.display = 'block';
   }
 }
 
-// --- CORE LOGIC ---
-async function startApp() {
-  await syncDB();
-  setInterval(syncDB, 60000); // প্রতি ১ মিনিটে ডাটাবেজ আপডেট হবে
-  loop();
-  setInterval(loop, 3000); // ৩ সেকেন্ড পরপর লাইভ চেক
+// --- APP CORE ---
+async function initializeApp() {
+  await fetchDatabase();
+  setInterval(fetchDatabase, 60000); // প্রতি ১ মিনিটে ডাটাবেজ আপডেট
+  mainLoop();
+  setInterval(mainLoop, 2000); // ২ সেকেন্ড পরপর লাইভ চেক
 }
 
-async function syncDB() {
-  const btn = document.getElementById('dbIndicator');
+async function fetchDatabase() {
+  const badge = document.getElementById('dbStatus');
   try {
-    const r = await fetch(GITHUB_DB + '?v=' + Date.now());
-    const d = await r.json();
-    if (d && d.length > 0) {
-      state.db = d;
-      btn.innerText = `Database: ${d.length} Records`;
-      btn.style.color = "lime";
+    // Cache busting যোগ করা হয়েছে যাতে নতুন ডাটা দ্রুত পায়
+    const response = await fetch(GITHUB_DB_URL + '?nocache=' + Date.now());
+    const data = await response.json();
+    if (data && data.length > 0) {
+      appState.dbRecords = data;
+      badge.innerText = `DB: ${data.length} Records Active`;
+      badge.style.color = "lime";
+    } else {
+      throw new Error("Empty DB");
     }
   } catch (e) {
-    btn.innerText = "Database: Offline";
-    btn.style.color = "red";
-    state.db = []; // ডাটা না থাকলে ক্লিয়ার
+    badge.innerText = "DB: Offline / Empty";
+    badge.style.color = "red";
+    appState.dbRecords = [];
   }
 }
 
-async function loop() {
+async function mainLoop() {
+  if (appState.isFetching) return;
+  appState.isFetching = true;
+  
   try {
-    const r = await fetch(LIVE_API + '?t=' + Date.now());
-    const data = await r.json();
-    if (data.code === 0 && data.data.list) {
-      process(data.data.list);
+    const res = await fetch(LIVE_API + '?t=' + Date.now());
+    const json = await res.json();
+    if (json.code === 0 && json.data.list) {
+      processData(json.data.list);
     }
-  } catch (e) { console.log("Network Busy..."); }
+  } catch (e) { console.error("API Link Error"); }
+  finally { appState.isFetching = false; }
 }
 
-function process(liveList) {
-  const current = liveList[0];
-  const issue = current.issueNumber;
+function processData(liveList) {
+  const latest = liveList[0];
+  const currentIssue = latest.issueNumber;
 
-  if (issue !== state.lastIssue) {
-    // সিঙ্ক্রোনাইজেশন: লাইভ ডাটা দিয়ে ডাটা গ্যাপ পূরণ
-    state.history = [...liveList, ...state.history].filter((v,i,a)=>a.findIndex(t=>t.issueNumber===v.issueNumber)===i).slice(0, 50);
+  if (currentIssue !== appState.lastIssue) {
+    // স্মার্ট সিঙ্ক্রোনাইজেশন: ২-৫ ডাটা গ্যাপ থাকলে পূরণ করবে
+    appState.liveHistory = [...liveList, ...appState.liveHistory]
+      .filter((v, i, a) => a.findIndex(t => t.issueNumber === v.issueNumber) === i)
+      .slice(0, 50);
 
-    // আগের প্রেডিকশন রেজাল্ট চেক
-    checkResult(current);
+    // পূর্বের প্রেডিকশন চেক
+    checkWinLoss(latest);
 
-    // নতুন প্রেডিকশন (শুধুমাত্র ডাটাবেজ থাকলে)
-    if (state.db.length > 0) {
-      const nextP = String(BigInt(issue) + 1n);
-      const pred = analyze(liveList);
+    // প্রেডিকশন লজিক (শুধুমাত্র ডাটাবেজে ডাটা থাকলে)
+    if (appState.dbRecords.length > 0) {
+      const nextIssue = String(BigInt(currentIssue) + 1n);
+      const prediction = runBigDataAnalysis(liveList);
       
-      state.activePred = { issue: nextP, type: pred.type };
+      appState.activeBet = { issue: nextIssue, type: prediction.type };
       
-      document.getElementById('nextPeriod').innerText = nextP;
-      document.getElementById('predictionBox').innerText = `🎯 ${pred.type}`;
-      document.getElementById('confLabel').innerText = pred.conf + "%";
-      document.getElementById('confFill').style.width = pred.conf + "%";
-      document.getElementById('patternText').innerText = `Pattern Match: ${pred.matches} sequences found`;
+      // UI Update
+      document.getElementById('nextPeriod').innerText = nextIssue;
+      document.getElementById('predictionBox').innerText = `🎯 ${prediction.type}`;
+      document.getElementById('confVal').innerText = prediction.conf + "%";
+      document.getElementById('confFill').style.width = prediction.conf + "%";
+      document.getElementById('patternLog').innerText = `Matches Found: ${prediction.matches} in Big Data`;
     } else {
       document.getElementById('predictionBox').innerText = "WAITING FOR DB...";
     }
     
-    state.lastIssue = issue;
-    renderTable();
+    appState.lastIssue = currentIssue;
+    updateUIHistory();
   }
 }
 
-function analyze(live) {
-  // শেষ ৩টি প্যাটার্ন (যেমন: BIG-SMALL-BIG)
-  const pattern = live.slice(0, 3).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
+function runBigDataAnalysis(live) {
+  // বর্তমানের শেষ ৩টি রেজাল্ট প্যাটার্ন তৈরি
+  const currentPattern = live.slice(0, 3).map(x => parseInt(x.number) >= 5 ? 'B' : 'S').join('');
   
-  let bCount = 0, sCount = 0, matches = 0;
+  let bScore = 0, sScore = 0, matches = 0;
 
-  // ৯২ হাজার ডাটার মধ্যে এই প্যাটার্নটি খোঁজা
-  // পারফরম্যান্সের জন্য মোবাইল ব্রাউজারে শেষ ২০,০০০ ডাটা স্ক্যান করা হচ্ছে
-  const limit = Math.min(state.db.length, 20000);
+  // ৯২ হাজার ডাটার মধ্যে এই প্যাটার্ন খোঁজা (ব্রাউজার ফ্রেন্ডলি লিমিট)
+  const limit = Math.min(appState.dbRecords.length, 30000);
   
-  for (let i = 0; i < limit - 4; i++) {
-    // আপনার JSON এ যদি 'type' ফিল্ড থাকে (B/S)
-    const histP = state.db[i+1].type + state.db[i+2].type + state.db[i+3].type;
-    if (histP === pattern) {
+  for (let i = 0; i < limit - 5; i++) {
+    // ডাটাবেজের ফরম্যাট অনুযায়ী (ধরা হয়েছে টাইপ ফিল্ড আছে)
+    const histPattern = appState.dbRecords[i+1].type + appState.dbRecords[i+2].type + appState.dbRecords[i+3].type;
+    if (histPattern === currentPattern) {
       matches++;
-      state.db[i].type === 'B' ? bCount++ : sCount++;
+      appState.dbRecords[i].type === 'B' ? bScore++ : sScore++;
     }
   }
 
-  const finalType = bCount > sCount ? 'BIG' : 'SMALL';
-  const conf = matches > 0 ? Math.round((Math.max(bCount, sCount) / matches) * 100) : 55;
+  const finalResult = bScore > sScore ? 'BIG' : 'SMALL';
+  let confidence = matches > 0 ? Math.round((Math.max(bScore, sScore) / matches) * 100) : 55;
 
-  return { type: finalType, conf: Math.min(conf, 99), matches };
+  return { type: finalResult, conf: Math.min(confidence, 98), matches };
 }
 
-function checkResult(current) {
-  if (state.activePred && state.activePred.issue === current.issueNumber) {
-    const actual = parseInt(current.number) >= 5 ? 'BIG' : 'SMALL';
-    const win = state.activePred.type === actual;
+function checkWinLoss(latest) {
+  if (appState.activeBet && appState.activeBet.issue === latest.issueNumber) {
+    const actual = parseInt(latest.number) >= 5 ? 'BIG' : 'SMALL';
+    const isWin = appState.activeBet.type === actual;
     
-    state.predictions.unshift({
-      issue: state.activePred.issue,
-      type: state.activePred.type,
+    appState.logs.unshift({
+      issue: appState.activeBet.issue,
+      bet: appState.activeBet.type,
       actual: actual,
-      win: win
+      isWin: isWin
     });
-
-    if (win) { state.stats.w++; state.stats.s++; } 
-    else { state.stats.l++; state.stats.s = 0; }
-    
-    const acc = Math.round((state.stats.w / (state.stats.w + state.stats.l)) * 100);
-    document.getElementById('acc').innerText = acc + "%";
-    document.getElementById('streak').innerText = state.stats.s;
   }
 }
 
-function renderTable() {
-  const body = document.getElementById('resBody');
-  body.innerHTML = state.predictions.slice(0, 10).map(p => `
+function updateUIHistory() {
+  const body = document.getElementById('historyBody');
+  body.innerHTML = appState.logs.slice(0, 8).map(l => `
     <tr>
-      <td>${p.issue.slice(-4)}</td>
-      <td style="color:${p.type==='BIG'?'#ff9900':'#00aaff'}">${p.type}</td>
-      <td>${p.actual}</td>
-      <td><b style="color:${p.win?'lime':'red'}">${p.win?'WIN':'LOSS'}</b></td>
+      <td>${l.issue.slice(-4)}</td>
+      <td style="color:${l.bet==='BIG'?'#ff9900':'#00aaff'}">${l.bet}</td>
+      <td>${l.actual}</td>
+      <td><span class="${l.isWin?'win-text':'loss-text'}">${l.isWin?'WIN':'LOSS'}</span></td>
     </tr>
   `).join('');
 }
