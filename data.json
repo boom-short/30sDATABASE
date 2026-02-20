@@ -1,5 +1,19 @@
 [
   {
+    "issueNumber": "20260220100052090",
+    "number": "9",
+    "color": "green",
+    "premium": "9",
+    "sum": 0
+  },
+  {
+    "issueNumber": "20260220100052089",
+    "number": "6",
+    "color": "red",
+    "premium": "6",
+    "sum": 0
+  },
+  {
     "issueNumber": "20260220100052088",
     "number": "1",
     "color": "green",
