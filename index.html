@@ -7,65 +7,52 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root { --primary: #00ffea; --bg: #050505; --card: #121212; --win: #00ff88; --loss: #ff4444; }
-    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; min-height: 100vh;}
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
     
-    /* Login Section */
     #loginSection { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 10000; }
     .login-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; width: 85%; max-width: 350px; }
     input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; box-sizing: border-box; outline: none; }
     .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
 
-    /* Main App */
-    #mainApp { display: none; width: 100%; max-width: 500px; padding-bottom: 80px;}
+    #mainApp { display: none; width: 100%; max-width: 500px; padding-bottom: 80px; }
     .header { text-align: center; color: var(--primary); font-size: 18px; margin: 15px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-    .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; box-shadow: 0 0 20px rgba(0,255,234,0.1); margin-bottom: 20px; }
+    .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; margin-bottom: 20px; }
     .prediction-box { font-size: 45px; font-weight: bold; text-align: center; margin: 10px 0; color: var(--primary); text-shadow: 0 0 15px var(--primary); }
-    .status-bar { display: flex; justify-content: space-between; font-size: 12px; margin-top: 10px; color: #888; }
-    .highlight { color: var(--primary); font-weight: bold; }
-
-    /* Table */
+    
     .table-container { background: #0a0a0a; border-radius: 12px; overflow: hidden; border: 1px solid #222; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { padding: 12px; background: #151515; color: var(--primary); border-bottom: 2px solid #222; }
+    th { padding: 12px; background: #151515; color: var(--primary); }
     td { padding: 12px; text-align: center; border-bottom: 1px solid #111; }
-    .red { color: var(--loss); font-weight: bold; } 
-    .green { color: var(--win); font-weight: bold; }
-    .gold { color: #ffd700; }
 
-    /* Floating AI Button */
-    #ai-btn { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: var(--primary); border: none; border-radius: 50%; width: 55px; height: 55px; box-shadow: 0 0 15px var(--primary); cursor: pointer; font-size: 24px; display: none; }
-    #chat-window { display: none; position: fixed; bottom: 85px; right: 20px; width: 300px; height: 400px; background: var(--card); border: 1px solid var(--primary); border-radius: 15px; flex-direction: column; overflow: hidden; z-index: 1000; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
-    #chat-msgs { flex: 1; padding: 15px; overflow-y: auto; font-size: 13px; color: #ddd; display: flex; flex-direction: column; gap: 8px; }
-    .ai-bubble { background: #222; padding: 8px 12px; border-radius: 10px; align-self: flex-start; max-width: 85%; }
-    .user-bubble { background: var(--primary); color: #000; padding: 8px 12px; border-radius: 10px; align-self: flex-end; max-width: 85%; }
+    /* AI UI */
+    #ai-btn { position: fixed; bottom: 20px; right: 20px; background: var(--primary); border: none; border-radius: 50%; width: 55px; height: 55px; box-shadow: 0 0 15px var(--primary); cursor: pointer; font-size: 24px; display: none; z-index: 999; }
+    #chat-win { display: none; position: fixed; bottom: 85px; right: 20px; width: 300px; height: 400px; background: var(--card); border: 1px solid var(--primary); border-radius: 15px; flex-direction: column; z-index: 1000; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
+    #chat-msgs { flex: 1; padding: 15px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { padding: 8px 12px; border-radius: 10px; max-width: 85%; }
+    .ai { background: #222; align-self: flex-start; }
+    .user { background: var(--primary); color: #000; align-self: flex-end; }
   </style>
 </head>
 <body>
 
   <div id="loginSection">
     <div class="login-card">
-      <h2 style="color:var(--primary); margin:0;">VIP ACCESS</h2>
-      <p style="font-size:12px; color:#888;">92K NODE SCANNER</p>
+      <h2 style="color:var(--primary);">VIP ACCESS</h2>
       <input type="password" id="passInput" placeholder="Enter VIP Key">
       <button onclick="checkLogin()" class="login-btn">INJECT & START</button>
-      <p id="error" style="color:var(--loss); display:none; font-size:12px; margin-top:10px;">Access Denied!</p>
+      <p id="error" style="color:var(--loss); display:none; margin-top:10px;">Access Denied!</p>
     </div>
   </div>
 
   <div id="mainApp">
     <div class="header">◈•° King Soikat Bahi VIP °•◈</div>
     <div class="card">
-      <div style="display: flex; justify-content: space-between; font-size: 14px;">
-        <span>Period: <b id="periodDisplay" class="highlight">----</b></span>
+      <div style="display:flex; justify-content:space-between; font-size:14px;">
+        <span>Period: <b id="periodDisplay" style="color:var(--primary)">----</b></span>
         <span>Refresh: <b id="timer">30s</b></span>
       </div>
       <div id="prediction" class="prediction-box">SCANNING</div>
-      <div class="status-bar">
-        <span>Accuracy: <span id="confPercent" class="highlight">0%</span></span>
-        <span>Mode: <span id="matchFound" class="highlight">NORMAL</span></span>
-      </div>
     </div>
-
     <div class="table-container">
       <table>
         <thead><tr><th>Period</th><th>Num</th><th>Size</th><th>Result</th></tr></thead>
@@ -75,14 +62,12 @@
   </div>
 
   <button id="ai-btn" onclick="toggleChat()">🤖</button>
-  <div id="chat-window">
-    <div style="background:#1a1a1a; padding:10px; border-bottom:1px solid #333; font-size:14px; color:var(--primary); font-weight:bold;">আকাশ AI</div>
-    <div id="chat-msgs">
-      <div class="ai-bubble">নমস্কার! আমি আকাশ। আমি আপনাকে কিভাবে সাহায্য করতে পারি?</div>
-    </div>
+  <div id="chat-win">
+    <div style="padding:10px; background:#1a1a1a; border-bottom:1px solid #333; color:var(--primary); font-weight:bold;">আকাশ AI (VIP)</div>
+    <div id="chat-msgs"><div class="msg ai">স্বাগতম! আমি আকাশ। আপনার প্রেডিকশন স্ক্যানার তৈরি।</div></div>
     <div style="padding:10px; background:#111; display:flex; gap:5px;">
-      <input type="text" id="aiInput" placeholder="কিছু বলুন..." style="margin:0; padding:8px;">
-      <button onclick="sendToAI()" style="background:var(--primary); border:none; padding:0 15px; border-radius:8px; font-weight:bold; cursor:pointer;">SEND</button>
+      <input type="text" id="aiInp" placeholder="কিছু বলুন..." style="margin:0; padding:8px;">
+      <button onclick="sendToAI()" style="background:var(--primary); border:none; padding:0 15px; border-radius:8px; font-weight:bold;">SEND</button>
     </div>
   </div>
 
@@ -119,58 +104,42 @@ function runScan(history) {
   const latest = history[0];
   const nextP = (BigInt(latest.issueNumber) + 1n).toString();
   document.getElementById('periodDisplay').innerText = nextP.slice(-4);
-  
-  // সিম্পল ডেমো প্রেডিকশন লজিক (আগের মতই কাজ করবে)
-  const isBig = parseInt(latest.number) < 5; 
-  const pred = isBig ? "BIG" : "SMALL";
-  
+  const pred = parseInt(latest.number) < 5 ? "BIG" : "SMALL";
   const pDiv = document.getElementById('prediction');
   pDiv.innerText = pred;
   pDiv.style.color = pred === "BIG" ? "#ff9900" : "#00aaff";
-  document.getElementById('confPercent').innerText = "92%";
   
-  renderTable(history);
-}
-
-function renderTable(history) {
   let html = "";
   history.slice(0, 8).forEach(item => {
     const isB = parseInt(item.number) >= 5;
-    html += `<tr><td>${item.issueNumber.slice(-4)}</td><td class="gold">${item.number}</td><td class="${isB?'red':'green'}">${isB?'BIG':'SMALL'}</td><td>---</td></tr>`;
+    html += `<tr><td>${item.issueNumber.slice(-4)}</td><td>${item.number}</td><td class="${isB?'red':'green'}">${isB?'BIG':'SMALL'}</td><td>---</td></tr>`;
   });
   document.getElementById('logTable').innerHTML = html;
 }
 
-// AI Functions
 function toggleChat() {
-  const win = document.getElementById('chat-window');
+  const win = document.getElementById('chat-win');
   win.style.display = win.style.display === 'none' ? 'flex' : 'none';
 }
 
 async function sendToAI() {
-  const input = document.getElementById('aiInput');
+  const input = document.getElementById('aiInp');
   const box = document.getElementById('chat-msgs');
   if(!input.value) return;
-
   const text = input.value;
-  box.innerHTML += `<div class="user-bubble">${text}</div>`;
+  box.innerHTML += `<div class="msg user">${text}</div>`;
   input.value = "";
   box.scrollTop = box.scrollHeight;
 
-  try {
-    const res = await fetch('/ask', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({message: text})
-    });
-    const data = await res.json();
-    box.innerHTML += `<div class="ai-bubble"><b>আকাশ:</b> ${data.reply}</div>`;
-  } catch(e) {
-    box.innerHTML += `<div class="ai-bubble" style="color:red;">সার্ভার সচল নেই। দয়া করে Replit-এ main.py রান করুন।</div>`;
-  }
+  const res = await fetch('/ask', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({message: text})
+  });
+  const data = await res.json();
+  box.innerHTML += `<div class="msg ai"><b>আকাশ:</b> ${data.reply}</div>`;
   box.scrollTop = box.scrollHeight;
 }
 </script>
 </body>
 </html>
-
