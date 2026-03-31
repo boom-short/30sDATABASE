@@ -1,5 +1,19 @@
 [
   {
+    "issueNumber": "20260331100052356",
+    "number": "8",
+    "color": "red",
+    "premium": "8",
+    "sum": 0
+  },
+  {
+    "issueNumber": "20260331100052355",
+    "number": "0",
+    "color": "red,violet",
+    "premium": "0",
+    "sum": 0
+  },
+  {
     "issueNumber": "20260331100052354",
     "number": "0",
     "color": "red,violet",
@@ -53,48 +67,6 @@
     "number": "5",
     "color": "green,violet",
     "premium": "5",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260331100052346",
-    "number": "2",
-    "color": "red",
-    "premium": "2",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260331100052345",
-    "number": "1",
-    "color": "green",
-    "premium": "1",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260331100052344",
-    "number": "8",
-    "color": "red",
-    "premium": "8",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260331100052343",
-    "number": "2",
-    "color": "red",
-    "premium": "2",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260331100052342",
-    "number": "7",
-    "color": "green",
-    "premium": "7",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260331100052341",
-    "number": "8",
-    "color": "red",
-    "premium": "8",
     "sum": 0
   }
 ]
