@@ -1,5 +1,19 @@
 [
   {
+    "issueNumber": "20260407100050714",
+    "number": "8",
+    "color": "red",
+    "premium": "8",
+    "sum": 0
+  },
+  {
+    "issueNumber": "20260407100050713",
+    "number": "3",
+    "color": "green",
+    "premium": "3",
+    "sum": 0
+  },
+  {
     "issueNumber": "20260407100050712",
     "number": "1",
     "color": "green",
@@ -50,90 +64,6 @@
   },
   {
     "issueNumber": "20260407100050705",
-    "number": "1",
-    "color": "green",
-    "premium": "1",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050704",
-    "number": "5",
-    "color": "green,violet",
-    "premium": "5",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050703",
-    "number": "4",
-    "color": "red",
-    "premium": "4",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050702",
-    "number": "2",
-    "color": "red",
-    "premium": "2",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050701",
-    "number": "6",
-    "color": "red",
-    "premium": "6",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050700",
-    "number": "0",
-    "color": "red,violet",
-    "premium": "0",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050699",
-    "number": "1",
-    "color": "green",
-    "premium": "1",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050698",
-    "number": "5",
-    "color": "green,violet",
-    "premium": "5",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050697",
-    "number": "3",
-    "color": "green",
-    "premium": "3",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050696",
-    "number": "0",
-    "color": "red,violet",
-    "premium": "0",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050695",
-    "number": "7",
-    "color": "green",
-    "premium": "7",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050694",
-    "number": "3",
-    "color": "green",
-    "premium": "3",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260407100050693",
     "number": "1",
     "color": "green",
     "premium": "1",
