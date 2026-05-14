@@ -1,5 +1,33 @@
 [
   {
+    "issueNumber": "20260514100052164",
+    "number": "5",
+    "color": "green,violet",
+    "premium": "5",
+    "sum": 0
+  },
+  {
+    "issueNumber": "20260514100052163",
+    "number": "5",
+    "color": "green,violet",
+    "premium": "5",
+    "sum": 0
+  },
+  {
+    "issueNumber": "20260514100052162",
+    "number": "4",
+    "color": "red",
+    "premium": "4",
+    "sum": 0
+  },
+  {
+    "issueNumber": "20260514100052161",
+    "number": "5",
+    "color": "green,violet",
+    "premium": "5",
+    "sum": 0
+  },
+  {
     "issueNumber": "20260514100052160",
     "number": "6",
     "color": "red",
