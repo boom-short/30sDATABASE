@@ -1,47 +1,5 @@
 [
   {
-    "issueNumber": "20260530100050004",
-    "number": "1",
-    "color": "green",
-    "premium": "1",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260530100050003",
-    "number": "6",
-    "color": "red",
-    "premium": "6",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260530100050002",
-    "number": "7",
-    "color": "green",
-    "premium": "7",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260530100050001",
-    "number": "6",
-    "color": "red",
-    "premium": "6",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260529100052880",
-    "number": "6",
-    "color": "red",
-    "premium": "6",
-    "sum": 0
-  },
-  {
-    "issueNumber": "20260529100052879",
-    "number": "0",
-    "color": "red,violet",
-    "premium": "0",
-    "sum": 0
-  },
-  {
     "issueNumber": "20260529100052878",
     "number": "5",
     "color": "green,violet",
